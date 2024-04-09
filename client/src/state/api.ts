@@ -1,0 +1,108 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  GetCompanyResponse,
+  GetEventResponse,
+  GetKpisResponse,
+  GetProductsResponse,
+  GetTransactionsResponse,
+  GetWaiterResponse,
+} from "./types";
+
+export const api = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
+  reducerPath: "main",
+  tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters"],
+  endpoints: (build) => ({
+    getKpis: build.query<Array<GetKpisResponse>, void>({
+      query: () => "kpi/kpis/",
+      providesTags: ["Kpis"],
+    }),
+    getProducts: build.query<Array<GetProductsResponse>, void>({
+      query: () => "product/products/",
+      providesTags: ["Products"],
+    }),
+    getTransactions: build.query<Array<GetTransactionsResponse>, void>({
+      query: () => "transaction/transactions/",
+      providesTags: ["Transactions"],
+    }),
+    getTransactionsById: build.query<GetTransactionsResponse, string>({
+      query: (id) => ({ url: `transaction/transactions/${id}` }),
+      //@ts-ignore
+      providesTags: (result, error, id) => [{ type: 'Transactions', id }],
+    }),
+    getCompanies: build.query<Array<GetCompanyResponse>, void>({
+      query: () => "company/companies/",
+      providesTags: ["Companies"],
+    }),
+    getEvents: build.query<Array<GetEventResponse>, void>({
+      query: () => "event/events/",
+      providesTags: ["Events"],
+    }),
+    getWaiters: build.query<Array<GetWaiterResponse>, void>({
+      query: () => "waiter/waiters/",
+      providesTags: ["Waiters"],
+    }),
+    addProduct: build.mutation({
+      query: (body) => ({
+        url: `product/products/`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    addEvent: build.mutation({
+      query: (body) => ({
+        url: `event/events/`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Events'],
+    }),
+    addCompany: build.mutation({
+      query: (body) => ({
+        url: `company/companies/`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Companies'],
+    }),
+    createOrder: build.mutation({
+      query: (body) => ({
+        url: `transaction/transactions/`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Transactions'],
+    }),
+    updateOrder: build.mutation<GetTransactionsResponse, any>({
+      query: ({ id, ...patch }) => ({
+        url: `transaction/transactions/${id}`,
+        method: 'POST',
+        body: patch,
+      }),
+      invalidatesTags: ['Transactions'],
+      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          api.util.updateQueryData('getTransactions', id, (draft) => {
+            Object.assign(draft, patch)
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+    deleteOrder: build.mutation<GetTransactionsResponse, string>({
+      query: (id) => ({
+        url: `transaction/transactions/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Transactions']
+    }),
+  }),
+});
+
+export const { useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation } =
+  api;
