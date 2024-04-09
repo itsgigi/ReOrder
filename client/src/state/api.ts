@@ -9,7 +9,7 @@ import {
 } from "./types";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://re-order-server.vercel.app/' }),
   reducerPath: "main",
   tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters"],
   endpoints: (build) => ({
