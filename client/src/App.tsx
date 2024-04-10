@@ -38,7 +38,7 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/addProduct" element={<AddProduct />} />
 
-              <Route path="/events" element={<Events isCreateHidden={false} heigth="90%"/>} />
+              <Route path="/events" element={<Events isCreateHidden={false} heigth="90%" timeFilter="all"/>} />
               <Route path="/addEvents" element={<AddEvent />} />
 
               <Route path="/companies" element={<Companies />} />

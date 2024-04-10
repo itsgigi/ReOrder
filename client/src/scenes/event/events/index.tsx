@@ -3,10 +3,11 @@ import Content from "./Row1";
 
 type EventsProps = {
   isCreateHidden: boolean,
-  heigth: string
+  heigth: string,
+  timeFilter: string,
 }
 
-const Events = ({isCreateHidden, heigth}: EventsProps) => {
+const Events = ({isCreateHidden, heigth, timeFilter}: EventsProps) => {
   return (
     <Box
       width="100%"
@@ -14,7 +15,7 @@ const Events = ({isCreateHidden, heigth}: EventsProps) => {
       display="grid"
       gap="1.5rem"
     >
-      <Content isCreateHidden={isCreateHidden} heigth={heigth}/>
+      <Content isCreateHidden={isCreateHidden} heigth={heigth} timeFilter={timeFilter}/>
     </Box>
     
   );

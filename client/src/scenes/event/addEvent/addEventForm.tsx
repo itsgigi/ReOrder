@@ -46,6 +46,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
                     <DatePicker
                         label="Data dell'evento"
                         value={date}
+                        format="DD-MM-YYYY"
                         onChange={(newValue) => setDate(newValue as any)}
                     />
                 </DemoContainer>

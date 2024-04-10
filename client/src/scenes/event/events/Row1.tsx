@@ -5,16 +5,31 @@ import {
 } from "@/state/api";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
 type RowProps = {
   isCreateHidden: boolean,
-  heigth: string
+  heigth: string,
+  timeFilter: string
 }
 
-const Row1 = ({isCreateHidden, heigth}: RowProps) => {
+const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
   const { palette } = useTheme();
   const { data: eventData } = useGetEventsQuery();
+  const today = new Date();
+  const filteredData = eventData 
+    ? eventData.filter((event) => 
+        {
+          let eventDate = new Date(event.date);
+          if(timeFilter === 'week'){
+            if(eventDate.getMonth() === today.getMonth() && eventDate.getFullYear() === today.getFullYear() && eventDate.getDate() - today.getDate() <= 7 && eventDate.getDate() - today.getDate() >= 0){
+              return eventDate
+            }
+          } else if(timeFilter === 'all') return eventDate
+        })
+          // TODO: add case month, year  
+    : undefined;
   const navigate = useNavigate();
 
   const productColumns = [
@@ -28,7 +43,7 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
       field: "date",
       headerName: "Data",
       flex: 0.5,
-      renderCell: (params: GridCellParams) => `${params.value}`,
+      renderCell: (params: GridCellParams) => <>{moment(params.value as string).format("DD-MM-YYYY")}</>,
     },
     {
       field: "pax",
@@ -73,7 +88,7 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
             columnHeaderHeight={25}
             rowHeight={35}
             hideFooter={true}
-            rows={eventData || []}
+            rows={filteredData || []}
             columns={productColumns}
           />
         </Box>
