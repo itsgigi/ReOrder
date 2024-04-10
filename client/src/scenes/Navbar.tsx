@@ -76,7 +76,7 @@ const Navbar = () => {
         <FaBusinessTime style={{marginRight: 4}}/> Aziende
       </Link>
     </Box>
-    <Box sx={{ "&:hover": { color: palette.primary[500], bgcolor: 'red' } }}>
+    <Box sx={{ "&:hover": { color: palette.primary[500] } }}>
       <Link
         to="/shifts"
         onClick={() => handleSelection("shifts")}

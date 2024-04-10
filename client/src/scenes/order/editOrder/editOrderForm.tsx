@@ -27,8 +27,15 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
   }
 
   function removeProductFromList(product: string) {
-    let tempList = productList.filter(prod => prod.productId != product)
+    let tempList = productList.filter(prod => prod.productId != product);
+    let total = 0;
+
+    productList.forEach((prod) => {
+      let price = parseFloat(prod.productId.split(':')[1]); 
+      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * price);} 
+    });
     setProductList(tempList);
+    setTot(total);
   }
   
   async function sendOrder() {
@@ -37,7 +44,7 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
         {
             id: orderData._id,
             buyer: creator,
-            amount: tot * 100,
+            amount: tot,
             productIds: productList,
         }
       ).then(() => {setOpen(true)}
