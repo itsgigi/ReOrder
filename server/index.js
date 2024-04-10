@@ -11,12 +11,6 @@ import transactionRoutes from "./routes/transaction.js";
 import companyRoutes from "./routes/company.js";
 import waiterRoutes from "./routes/waiter.js";
 import eventsRoutes from "./routes/event.js";
-/* import Company from "./models/Company.js";
-import { companies } from "./data/data.js";
-import KPI from "./models/KPI.js";
-import Product from "./models/Product.js";
-import Transaction from "./models/Transaction.js";
-import { kpis, products, transactions } from "./data/data.js";  */
 
 
 /* CONFIGURATIONS */
@@ -47,12 +41,5 @@ mongoose
   })
   .then(async () => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-
-    /* ADD DATA ONE TIME ONLY OR AS NEEDED */
-    /* await mongoose.connection.db.dropDatabase();
-    KPI.insertMany(kpis);
-    Product.insertMany(products);
-    Transaction.insertMany(transactions);
-    Company.insertMany(companies); */
   })
   .catch((error) => console.log(`${error} did not connect`));
