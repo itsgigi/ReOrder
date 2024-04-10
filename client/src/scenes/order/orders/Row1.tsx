@@ -50,8 +50,8 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
       headerName: "Azioni",
       flex: 0.40,
       renderCell: (params: GridCellParams) => <div style={{display: 'flex',position: 'relative',top: 5, gap: 20}}>
-                                                <div style={{backgroundColor: '#3487c4d4', cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px', width: 30, height: 32, borderRadius: 4}} onClick={() => navigate('/editOrder/' + params.id)}><FaEdit /></div>
-                                                <div style={{backgroundColor: '#eb3e3ed4', cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px', width: 30, height: 32, borderRadius: 4}} onClick={() => handleClickOpen(params.id.toString())}><FaTrash /></div>
+                                                <div style={{cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px black', width: 30, height: 32, borderRadius: 4, color: '#6799ac'}} onClick={() => navigate('/editOrder/' + params.id)}><FaEdit /></div>
+                                                <div style={{cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px black', width: 30, height: 32, borderRadius: 4, color:'#e80303d1'}} onClick={() => handleClickOpen(params.id.toString())}><FaTrash /></div>
                                               </div>,
     }, 
     {

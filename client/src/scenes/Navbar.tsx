@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PixIcon from "@mui/icons-material/Pix";
 import { Box, Button, Drawer, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
@@ -12,6 +12,7 @@ const Navbar = () => {
   const { palette } = useTheme();
   const [selected, setSelected] = useState("dashboard");
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -121,7 +122,7 @@ const Navbar = () => {
   return (
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
       {/* LEFT SIDE */}
-      <FlexBetween gap="0.75rem">
+      <FlexBetween gap="0.75rem" onClick={() => {handleSelection("dashboard"), navigate('/')}}>
         <PixIcon sx={{ fontSize: "28px" }} />
         <Typography variant="h4" fontSize="16px">
           Reorder
