@@ -22,11 +22,11 @@ export default function AlertDialog({handleClose, open}: AlertDialogProps) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Attenzione, l'operazione non è reversibile."}
+          {"Conferma eliminazione"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Sei sicuro di voler eliminare l'ordine?
+            Attenzione, l'operazione non è reversibile. Confermi?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

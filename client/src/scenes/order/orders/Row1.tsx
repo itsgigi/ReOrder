@@ -5,7 +5,7 @@ import {
   useDeleteOrderMutation,
   useGetTransactionsQuery,
 } from "@/state/api";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -18,7 +18,7 @@ type RowProps = {
 
 const Row1 = ({isCreateHidden, heigth}: RowProps) => {
   const { palette } = useTheme();
-  const { data: transactionData } = useGetTransactionsQuery();
+  const { data: transactionData, isLoading } = useGetTransactionsQuery();
   const [deleteOrder,{ isLoading: isDeleting }] = useDeleteOrderMutation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -49,9 +49,9 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
       field: "_id",
       headerName: "Azioni",
       flex: 0.40,
-      renderCell: (params: GridCellParams) => <div style={{display: 'flex', gap: 24}}>
-                                                <div style={{cursor: 'pointer'}} onClick={() => navigate('/editOrder/' + params.id)}><FaEdit /></div>
-                                                <div style={{cursor: 'pointer'}} onClick={() => handleClickOpen(params.id.toString())}><FaTrash /></div>
+      renderCell: (params: GridCellParams) => <div style={{display: 'flex',position: 'relative',top: 5, gap: 20}}>
+                                                <div style={{backgroundColor: '#3487c4d4', cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px', width: 30, height: 32, borderRadius: 4}} onClick={() => navigate('/editOrder/' + params.id)}><FaEdit /></div>
+                                                <div style={{backgroundColor: '#eb3e3ed4', cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px', width: 30, height: 32, borderRadius: 4}} onClick={() => handleClickOpen(params.id.toString())}><FaTrash /></div>
                                               </div>,
     }, 
     {
@@ -76,6 +76,8 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
 
   return (
     <>
+      {!isLoading ?
+      <>
       <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: isCreateHidden ? 'none' : 'flex', justifyContent: 'center', alignItems: 'center', gap: 3, boxShadow: '0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9'}}>
         <Typography style={{fontSize: 14, color: 'black'}}>Crea Nuovo Ordine</Typography>
         <Button style={{fontSize: 18}} onClick={() => navigate('/createOrder')}>+</Button>
@@ -107,7 +109,7 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
         >
           <DataGrid
             columnHeaderHeight={25}
-            rowHeight={35}
+            rowHeight={45}
             hideFooter={true}
             rows={transactionData || []}
             columns={transactionColumns}
@@ -115,6 +117,12 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
         </Box>
       </DashboardBox>
       <AlertDialog open={open} handleClose={handleClose}/>
+      </>
+      : 
+      <div style={{width: 'screen', height: 'screen', display:'flex', justifyContent: 'center', paddingTop: 20}}>
+        <CircularProgress color="inherit" />
+      </div>
+      }
     </>
   );
 };

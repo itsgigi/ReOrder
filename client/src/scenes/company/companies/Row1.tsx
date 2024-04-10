@@ -3,13 +3,13 @@ import DashboardBox from "@/components/DashboardBox";
 import {
     useGetCompaniesQuery,
 } from "@/state/api";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 
 const Row3 = () => {
   const { palette } = useTheme();
-  const { data: productData } = useGetCompaniesQuery();
+  const { data: productData, isLoading } = useGetCompaniesQuery();
   const navigate = useNavigate();
 
   const productColumns = [
@@ -34,6 +34,8 @@ const Row3 = () => {
 
   return (
     <>
+      {!isLoading ?
+      <>
       <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3, boxShadow: "0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9)"}}>
         <Typography style={{fontSize: 14, color: 'black'}}>Aggiungi Nuova Azienda</Typography>
         <Button style={{fontSize: 18}} onClick={() => navigate('/addCompany')}>+</Button>
@@ -72,6 +74,12 @@ const Row3 = () => {
           />
         </Box>
       </DashboardBox>
+      </>
+      : 
+      <div style={{width: 'screen', height: 'screen', display:'flex', justifyContent: 'center', paddingTop: 20}}>
+        <CircularProgress color="inherit" />
+      </div>
+      }
     </>
   );
 };

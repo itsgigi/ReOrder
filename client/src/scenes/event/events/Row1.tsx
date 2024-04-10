@@ -3,7 +3,7 @@ import DashboardBox from "@/components/DashboardBox";
 import {
     useGetEventsQuery,
 } from "@/state/api";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ type RowProps = {
 
 const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
   const { palette } = useTheme();
-  const { data: eventData } = useGetEventsQuery();
+  const { data: eventData, isLoading } = useGetEventsQuery();
   const today = new Date();
   const filteredData = eventData 
     ? eventData.filter((event) => 
@@ -55,6 +55,8 @@ const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
 
   return (
     <>
+    {!isLoading ?
+      <>
       <div style={{backgroundColor: "#ced3dc",  borderRadius: '10px', display: isCreateHidden ? 'none' : 'flex', justifyContent: 'center', alignItems: 'center', gap: 3, boxShadow: '0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9'}}>
         <Typography style={{fontSize: 14, color: 'black'}}>Crea Nuovo Evento</Typography>
         <Button style={{fontSize: 18}} onClick={() => navigate('/addEvents')}>+</Button>
@@ -93,6 +95,12 @@ const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
           />
         </Box>
       </DashboardBox>
+      </>
+      : 
+      <div style={{width: 'screen', height: 'screen', display:'flex', justifyContent: 'center', paddingTop: 20}}>
+      <CircularProgress color="inherit" />
+      </div>
+      }
     </>
   );
 };
