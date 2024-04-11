@@ -74,6 +74,8 @@ export interface ExpensesByCategory {
     name: string;
     date: Date;
     pax: number;
+    price: number;
+    menu: string;
   }
   
   export interface GetTransactionsResponse {
