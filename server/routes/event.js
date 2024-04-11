@@ -23,7 +23,6 @@ router.get("/events/:eventId", async (req, res) => {
   }
 });
 
-
 router.post("/events", async (req, res) => {
   let newDocument = req.body;
   newDocument.date = new Date();
