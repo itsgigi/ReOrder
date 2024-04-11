@@ -26,7 +26,7 @@ export const api = createApi({
       providesTags: ["Transactions"],
     }),
     getTransactionsById: build.query<GetTransactionsResponse, string>({
-      query: (id) => ({ url: `transaction/transactions/'${id}'` }),
+      query: (id) => ({ url: `transaction/transactions/${id}` }),
       //@ts-ignore
       providesTags: (result, error, id) => [{ type: 'Transactions', id }],
     }),
