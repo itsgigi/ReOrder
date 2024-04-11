@@ -14,6 +14,16 @@ router.get("/events", async (req, res) => {
   }
 });
 
+router.get("/events/:eventId", async (req, res) => {
+  try {
+      const event = await Event.findById(req.params.eventId).exec();
+      res.status(200).json(event);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+});
+
+
 router.post("/events", async (req, res) => {
   let newDocument = req.body;
   newDocument.date = new Date();

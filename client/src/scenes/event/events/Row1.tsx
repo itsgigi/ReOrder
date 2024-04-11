@@ -39,7 +39,7 @@ const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
       headerName: "Azioni",
       flex: 0.70,
       renderCell: (params: GridCellParams) => <div style={{display: 'flex',position: 'relative'}}>
-                                                <div style={{cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px black', width: 30, height: 32, borderRadius: 4, color: '#6799ac'}} onClick={() => navigate('/editOrder/' + params.id)}><FaEye /></div> {/* TODO: Create PreviewEvent */}
+                                                <div style={{cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px black', width: 30, height: 32, borderRadius: 4, color: '#6799ac'}} onClick={() => navigate('/previewEvent/' + params.id)}><FaEye /></div> {/* TODO: Create PreviewEvent */}
                                               </div>,
     },
     {

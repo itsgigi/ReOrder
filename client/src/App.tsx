@@ -16,6 +16,7 @@ import CreateOrder from "./scenes/order/createOrder";
 import EditOrder from "./scenes/order/editOrder";
 import AddCompany from "./scenes/company/addCompany";
 import AddEvent from "./scenes/event/addEvent";
+import PreviewEvent from "./scenes/event/previewEvent";
 /*
 import Predictions from "@/scenes/predictions"; */
 
@@ -40,6 +41,7 @@ function App() {
 
               <Route path="/events" element={<Events isCreateHidden={false} heigth="90%" timeFilter="all"/>} />
               <Route path="/addEvents" element={<AddEvent />} />
+              <Route path="/previewEvent/:eventId" element={<PreviewEvent />} />
 
               <Route path="/companies" element={<Companies />} />
               <Route path="/addCompany" element={<AddCompany />} />

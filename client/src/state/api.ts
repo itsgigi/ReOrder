@@ -9,7 +9,7 @@ import {
 } from "./types";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://re-order-server.vercel.app/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   reducerPath: "main",
   tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters"],
   endpoints: (build) => ({
@@ -26,7 +26,7 @@ export const api = createApi({
       providesTags: ["Transactions"],
     }),
     getTransactionsById: build.query<GetTransactionsResponse, string>({
-      query: (id) => ({ url: `transaction/transactions/${id}` }),
+      query: (id) => ({ url: `transaction/transactions/'${id}'` }),
       //@ts-ignore
       providesTags: (result, error, id) => [{ type: 'Transactions', id }],
     }),
@@ -37,6 +37,11 @@ export const api = createApi({
     getEvents: build.query<Array<GetEventResponse>, void>({
       query: () => "event/events/",
       providesTags: ["Events"],
+    }),
+    getEventById: build.query<GetEventResponse, string>({
+      query: (id) => ({ url: `event/events/${id}` }),
+      //@ts-ignore
+      providesTags: (result, error, id) => [{ type: 'Events', id }],
     }),
     getWaiters: build.query<Array<GetWaiterResponse>, void>({
       query: () => "waiter/waiters/",
@@ -104,5 +109,5 @@ export const api = createApi({
   }),
 });
 
-export const { useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation } =
+export const { useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
   api;
