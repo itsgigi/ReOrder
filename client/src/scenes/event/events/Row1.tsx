@@ -75,6 +75,8 @@ const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
           title="Lista degli eventi"
           sideText={`${eventData?.length! > 0 ? eventData?.length : 0} eventi trovati`}
         />
+        <div/>
+        { filteredData?.length! > 0 ?
         <Box
           mt="1rem"
           p="0 0.5rem"
@@ -103,11 +105,18 @@ const Row1 = ({isCreateHidden, heigth, timeFilter}: RowProps) => {
             columns={productColumns}
           />
         </Box>
+        : <Box 
+          mt="1rem"
+          p="0 1rem 1rem"
+          height={heigth}>
+            Nessun evento trovato
+          </Box>
+        }
       </DashboardBox>
       </>
       : 
       <div style={{width: 'screen', height: 'screen', display:'flex', justifyContent: 'center', paddingTop: 20}}>
-      <CircularProgress color="inherit" />
+        <CircularProgress color="inherit" />
       </div>
       }
     </>

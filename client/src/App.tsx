@@ -17,6 +17,7 @@ import EditOrder from "./scenes/order/editOrder";
 import AddCompany from "./scenes/company/addCompany";
 import AddEvent from "./scenes/event/addEvent";
 import PreviewEvent from "./scenes/event/previewEvent";
+import Login from "./scenes/login";
 /*
 import Predictions from "@/scenes/predictions"; */
 
@@ -29,6 +30,11 @@ function App() {
           <CssBaseline />
           <Box padding="1rem 2rem 4rem 2rem">
             <Navbar />
+            
+            <Routes>
+              <Route path="/login" element={<Login />} />
+            </Routes>
+
             <Routes>
               <Route path="/" element={<Dashboard />} />
               

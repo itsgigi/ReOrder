@@ -11,7 +11,7 @@ import {
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://re-order-server.vercel.app/' }),
   reducerPath: "main",
-  tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters"],
+  tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters", "Users"],
   endpoints: (build) => ({
     getKpis: build.query<Array<GetKpisResponse>, void>({
       query: () => "kpi/kpis/",
@@ -79,6 +79,14 @@ export const api = createApi({
       }),
       invalidatesTags: ['Transactions'],
     }),
+    login: build.mutation({
+      query: (body) => ({
+        url: `user/users/`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Users'],
+    }),
     updateOrder: build.mutation<GetTransactionsResponse, any>({
       query: ({ id, ...patch }) => ({
         url: `transaction/transactions/${id}`,
@@ -109,5 +117,5 @@ export const api = createApi({
   }),
 });
 
-export const { useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
+export const { useLoginMutation, useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
   api;

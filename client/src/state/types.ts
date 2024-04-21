@@ -77,6 +77,12 @@ export interface ExpensesByCategory {
     price: number;
     menu: string;
   }
+
+  export interface GetUserResponse {
+    username: string;
+    email: string;
+    password: string;
+  }
   
   export interface GetTransactionsResponse {
     id: string;

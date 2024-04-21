@@ -11,18 +11,23 @@ import transactionRoutes from "./routes/transaction.js";
 import companyRoutes from "./routes/company.js";
 import waiterRoutes from "./routes/waiter.js";
 import eventsRoutes from "./routes/event.js";
-
+import usersRoutes from "./routes/user.js";
+import cookieParser from 'cookie-parser'
 
 /* CONFIGURATIONS */
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
+app.use(cookieParser());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  //origin: false,
+  credentials: true
+}));
 
 /* ROUTES */
 app.use("/kpi", kpiRoutes);
@@ -31,6 +36,7 @@ app.use("/transaction", transactionRoutes);
 app.use("/company", companyRoutes);
 app.use("/waiter", waiterRoutes);
 app.use("/event", eventsRoutes);
+app.use("/user", usersRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000;
