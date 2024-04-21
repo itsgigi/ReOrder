@@ -19,7 +19,7 @@ router.post("/users", async (req, res) => {
         return res.json({message: 'Password errata'});
     } */
 
-    const token = jwt.sign({username: user.username}, process.env.KEY, {expiresIn: '8h'});
+    const token = jwt.sign({username: user.username}, 'jwttokenkey123encrp../$$1%unique.', {expiresIn: '8h'});
     res.cookie('token', token, {httpOnly: true, maxAge: 2880000});
 
     res.status(200).json({message: 'Login effettuato'});
