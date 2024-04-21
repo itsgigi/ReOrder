@@ -22,7 +22,7 @@ router.post("/users", async (req, res) => {
     const token = jwt.sign({username: user.username}, 'jwttokenkey123encrp../$$1%unique.', {expiresIn: '8h'});
     res.cookie('token', token, {httpOnly: true, maxAge: 2880000});
 
-    res.status(200).json({message: 'Login effettuato'});
+    res.status(200).json({status: 200});
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
