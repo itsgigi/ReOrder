@@ -30,13 +30,11 @@ function App() {
           <CssBaseline />
           <Box padding="1rem 2rem 4rem 2rem">
             <Navbar />
-            
-            <Routes>
-              <Route path="/login" element={<Login />} />
-            </Routes>
 
             <Routes>
               <Route path="/" element={<Dashboard />} />
+
+              <Route path="/login" element={<Login />} />
               
               <Route path="/orders" element={<Orders isCreateHidden={false} heigth="90%"/>} />
               <Route path="/createOrder" element={<CreateOrder />} />

@@ -5,7 +5,7 @@ import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const loginForm = () => {
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -16,10 +16,11 @@ const loginForm = () => {
     try {
       if(!isAuthenticating) login(
         {
-          username: userName,
-          password: password
+          email,
+          password
         }
       ).then((res: any) => {
+        console.log('res', res)
         //@ts-ignore
         if(res.data.status) {
           () => navigate('/')
@@ -35,8 +36,8 @@ const loginForm = () => {
         <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: 'flex', flexDirection: 'column', gap: 12, height: 'max-content', padding: 16, width: '100%', boxShadow: "0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9)"}}>
             <Typography style={{fontSize: 20, color: '#043028', marginBottom: 8}}>Accedi</Typography>
 
-            <Typography style={{fontSize: 14, color: '#043028', fontWeight: 600}}>Username</Typography>
-            <Input type="string" style={{backgroundColor: '#fcf7f8',fontSize: 14, color: '#4e8098', marginBottom: 8, border: 'solid 1px grey', borderRadius: 6}} value={userName} onChange={(e) => setUserName(e.target.value)}/>
+            <Typography style={{fontSize: 14, color: '#043028', fontWeight: 600}}>Email</Typography>
+            <Input type="string" style={{backgroundColor: '#fcf7f8',fontSize: 14, color: '#4e8098', marginBottom: 8, border: 'solid 1px grey', borderRadius: 6}} value={email} onChange={(e) => setEmail(e.target.value)}/>
             <Typography style={{fontSize: 14, color: '#043028', fontWeight: 600}}>Password</Typography>
             <div style={{display: 'flex', position:'relative'}}>
                 <Input type={showPassword ? "string" : "password"} style={{backgroundColor: '#fcf7f8', width: '100%', fontSize: 14, color: '#4e8098', marginBottom: 8, border: 'solid 1px grey', borderRadius: 6}} value={password} onChange={(e) => setPassword(e.target.value)} />
