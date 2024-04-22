@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.post("/users", async (req, res) => {
   try {
-    const {email, password} = req.body;
+    const {email} = req.body;
     const user = await User.findOne({email});
 
     if(!user) {
         return res.json({message: 'Utente non trovato', status: 401})
     }
 
-    const validPassword = bcrypt.compare(password, user.password, function (err, res) {
+    const validPassword = bcrypt.compare(req.body.password, user.password, function (err, res) {
       if (err) {
         console.warn('[Login] err ->', err);
       }
@@ -29,6 +29,7 @@ router.post("/users", async (req, res) => {
         return response.json({ status: 400, message: 'Password errata' });
       }
     })
+    console.log(validPassword)
     if(!validPassword) {
         return res.json({message: 'Password errata'});
     }
