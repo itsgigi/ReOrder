@@ -17,6 +17,7 @@ router.post("/users", async (req, res) => {
     const isValid = await bcrypt.compare(password, user.password, function (err, valid) {
       if (err) {
         console.warn('[Login] err ->', err);
+        return res.json({ status: 500, message: 'Errore' + err });
       }
       if (valid) {
         // Send JWT
@@ -30,7 +31,7 @@ router.post("/users", async (req, res) => {
       }
     });
     if(!isValid) {
-      return res.json({ status: 400, message: 'Password errata' + user });
+      return res.json({ status: 400, message: 'Password errata' + user.password });
     }
 
   } catch (error) {
