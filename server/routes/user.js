@@ -11,13 +11,13 @@ router.post("/users", async (req, res) => {
     const user = await User.findOne({email});
 
     if(!user) {
-        return res.json({message: 'Utente non trovato'})
+        return res.json({message: 'Utente non trovato', status: 401})
     }
 
-    /* const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, user.password);
     if(!validPassword) {
         return res.json({message: 'Password errata'});
-    } */
+    }
 
     const token = jwt.sign({username: user.username}, 'jwttokenkey123encrp../$$1%unique.', {expiresIn: '8h'});
     res.cookie('token', token, {httpOnly: true, maxAge: 2880000});

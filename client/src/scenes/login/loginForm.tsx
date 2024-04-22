@@ -20,10 +20,8 @@ const loginForm = () => {
           password
         }
       ).then((res: any) => {
-        console.log('res', res)
-        //@ts-ignore
-        if(res.data.status) {
-          () => navigate('/')
+        if(res.data.status === 200) {
+          navigate('/')
         }
       })
     } catch {(error: any) => {
