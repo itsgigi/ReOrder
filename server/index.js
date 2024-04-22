@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var corsOptions = {
   credentials: true,
-  origin: 'http://localhost:5173',
+  origin: ["http://localhost:5173"],
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));

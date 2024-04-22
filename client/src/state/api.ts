@@ -84,6 +84,7 @@ export const api = createApi({
         url: `user/users/`,
         method: 'POST',
         body,
+        credentials: "include"
       }),
       invalidatesTags: ['Users'],
     }),
