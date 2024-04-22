@@ -13,8 +13,9 @@ router.post("/users", async (req, res) => {
     if(!user) {
         return res.json({message: 'Utente non trovato', status: 401})
     }
+    request.server.log(user, password, user.password)
 
-    bcrypt.compare(password, user.password, function (err, res) {
+    const isValid = bcrypt.compare(password, user.password, function (err, res) {
       if (err) {
         console.warn('[Login] err ->', err);
       }
@@ -28,7 +29,8 @@ router.post("/users", async (req, res) => {
         // response is OutgoingMessage object that server response http request
         return response.json({ status: 400, message: 'Password errata' });
       }
-    })
+    });
+    request.server.log('is valid',isValid)
 
   } catch (error) {
     res.status(404).json({ message: error.message });
