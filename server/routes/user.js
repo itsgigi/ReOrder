@@ -30,7 +30,7 @@ router.post("/users", async (req, res) => {
       }
     });
     if(!isValid) {
-      return res.json({ status: 400, message: 'Password errata' });
+      return res.json({ status: 400, message: 'Password errata' + user });
     }
 
   } catch (error) {
