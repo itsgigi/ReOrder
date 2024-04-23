@@ -1,9 +1,15 @@
 import { Typography } from "@mui/material";
 import Events from "../event/events";
 import Orders from "../order/orders";
+import { useIsLoggedInQuery } from "@/state/api";
+import { useEffect } from "react";
 
 const Row1 = () => {
-  //const { palette } = useTheme();
+  const { data: loggedData, isLoading } = useIsLoggedInQuery();
+
+  useEffect(() => {
+    if(!isLoading) console.log(loggedData)
+  },[])
 
   return (
     <>

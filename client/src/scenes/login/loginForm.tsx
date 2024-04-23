@@ -20,6 +20,7 @@ const loginForm = () => {
           password
         }
       ).then((res: any) => {
+        console.log(res)
         if(res.data.status === 200) {
           navigate('/')
         }

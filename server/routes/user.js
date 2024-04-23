@@ -22,7 +22,27 @@ router.post("/users", async (req, res) => {
     const token = jwt.sign({ username: user.username }, 'jwttokenkey123encrp../$$1%unique.', { expiresIn: '8h' })
     res.cookie('token', token, { httpOnly: true, maxAge: 2880000 })
 
-    return res.status(200).json({ status: 200 , message: 'Login effettuato' });
+    return res.status(200).json({ status: 200 , message: token});
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+router.get("/users", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if(!token) {
+        return res.json({message: 'Utente non autorizzato', status: 401})
+    }
+
+    const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')
+
+    if(decoded) {
+      return res.json({ status: 200 , message: "Accesso con utenza permesso"});
+    } else {
+      return res.json({ status: 400 , message: "Errore nell'autenticazione"});
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
