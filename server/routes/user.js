@@ -11,7 +11,7 @@ router.post("/users", async (req, res, next) => {
     const user = await User.findOne({email})
 
     if(!user) {
-        return res.json({message: 'Utente non trovato', status: 401})
+      return res.json({message: 'Utente non trovato', status: 401})
     }
 
     const isValid = await bcrypt.compare(password, user.password)
@@ -23,9 +23,9 @@ router.post("/users", async (req, res, next) => {
     res.cookie('token', token, { httpOnly: true, maxAge: 2880000 });
     next();
     
-    return res.status(200).json({ status: 200 , message: token});
+    return res.json({ status: 200 , message: token});
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.json({ status: 200 , message: error.message });
   }
 });
 

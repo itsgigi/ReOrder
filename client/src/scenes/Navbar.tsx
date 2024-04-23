@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PixIcon from "@mui/icons-material/Pix";
 import { Box, Button, Drawer, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
-import { FaBusinessTime, FaCalendarTimes, FaHome, FaPen } from "react-icons/fa";
+import { FaBusinessTime, FaCalendarTimes, FaHome, FaPen, FaUser } from "react-icons/fa";
 //import { FaChartGantt } from "react-icons/fa6";
 import { Fastfood } from "@mui/icons-material";
 import { BiParty } from "react-icons/bi";
@@ -25,6 +25,19 @@ const Navbar = () => {
 
   const DrawerList = (
     <div style={{display: 'flex', flexDirection: 'column', padding: 48, gap: 16, backgroundColor: '#fcf7f8', minHeight: '100vh'}}>
+    <Box sx={{ "&:hover": { color: palette.primary[500] }, pb: 8 }}>
+      <Link
+        to="/login"
+        onClick={() => handleSelection("login")}
+        style={{
+          alignItems: 'center', display: 'flex',
+          color: selected === "login" ? "inherit" : palette.grey[700],
+          textDecoration: "inherit"
+        }}
+      >
+        <FaUser style={{marginRight: 4}}/> <Typography>Login</Typography>
+      </Link>
+    </Box>
     <Box sx={{ "&:hover": { color: palette.primary[500] } }}>
       <Link
         to="/"

@@ -19,17 +19,16 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
-app.use(cookieParser());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var corsOptions = {
   credentials: true,
-  origin: ["http://localhost:5173"],
-  optionsSuccessStatus: 200
+  origin: ["http://localhost:5173"]
 }
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 /* ROUTES */
 app.use("/kpi", kpiRoutes);

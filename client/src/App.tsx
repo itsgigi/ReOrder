@@ -30,7 +30,6 @@ function App() {
           <CssBaseline />
           <Box padding="1rem 2rem 4rem 2rem">
             <Navbar />
-
             <Routes>
               <Route path="/" element={<Dashboard />} />
 

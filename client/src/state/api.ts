@@ -89,7 +89,10 @@ export const api = createApi({
       invalidatesTags: ['Users'],
     }),
     isLoggedIn: build.query<any, void>({
-      query: () => "user/users/",
+      query: () => ({
+        url:"user/users/",
+        credentials: "include"
+      }),
       providesTags: ["Users"],
     }),
     updateOrder: build.mutation<GetTransactionsResponse, any>({
