@@ -3,10 +3,12 @@ import User from "../models/User.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { setCookie } from 'cookies-next';
+import cors from "cors";
 
 const router = express.Router();
+router.all('*', cors());
 
-router.post("/users", async (req, res, next) => {
+router.post("/users", cors(), async (req, res, next) => {
   try {
     const {email, password} = req.body;
     const user = await User.findOne({email})
@@ -25,7 +27,7 @@ router.post("/users", async (req, res, next) => {
       httpOnly: true,
       maxAge: 2880000,
     });
-    
+    res.header("Access-Control-Allow-Credentials", true);
     
     return res.json({ status: 200 , message: token});
   } catch (error) {
@@ -33,7 +35,7 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users", cors(), async (req, res) => {
   try {
     const token = req.cookies.token;
 
@@ -41,7 +43,8 @@ router.get("/users", async (req, res) => {
         return res.json({message: 'Utente non autorizzato', status: 401})
     }
 
-    const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')
+    const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.');
+    res.header("Access-Control-Allow-Credentials", true);
 
     if(decoded) {
       return res.json({ status: 200 , message: "Accesso con utenza permesso"});
