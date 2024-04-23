@@ -24,12 +24,12 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-var corsOptions = {
+/* var corsOptions = {
   credentials: true,
   origin: ["http://localhost:5173"],
   optionsSuccessStatus: 200
-}
-app.use(cors(corsOptions));
+} */
+app.use(cors());
 
 /* ROUTES */
 app.use("/kpi", kpiRoutes);
