@@ -23,8 +23,15 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+var whitelist = ['http://localhost:5173' ]
 var corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true
 }
 app.use(cors(corsOptions));

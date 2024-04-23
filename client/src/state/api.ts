@@ -9,11 +9,7 @@ import {
 } from "./types";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://re-order-server.vercel.app/',
-  prepareHeaders: (headers, { getState }) => {
-      headers.set('Access-Control-Allow-Origin', '*')
-      return headers
-  }}),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://re-order-server.vercel.app/' }),
   reducerPath: "main",
   tagTypes: ["Kpis", "Products", "Transactions", "Companies", "Events", "Waiters", "Users"],
   endpoints: (build) => ({
