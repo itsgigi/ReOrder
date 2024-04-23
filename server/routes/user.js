@@ -11,15 +11,17 @@ router.all('*', cors());
 router.post("/users", cors(), async (req, res, next) => {
   try {
     const {email, password} = req.body;
-    const user = await User.findOne({email})
+    const user = await User.findOne({email});
+
+    res.header("Access-Control-Allow-Credentials", true);
 
     if(!user) {
-      return res.json({message: 'Utente non trovato', status: 401})
+      return res.json({message: 'Utente non trovato', status: 401, header: {"Access-Control-Allow-Credentials": true}}, Headers = {"Access-Control-Allow-Credentials": true})
     }
 
     const isValid = await bcrypt.compare(password, user.password)
     if(!isValid) {
-      return res.json({ status: 400, message: 'Password errata'});
+      return res.json({ status: 400, message: 'Password errata', header: {"Access-Control-Allow-Credentials": true}}, Headers = {"Access-Control-Allow-Credentials": true});
     }
 
     const token = jwt.sign({ username: user.username }, 'jwttokenkey123encrp../$$1%unique.', { expiresIn: '8h' })
@@ -27,11 +29,10 @@ router.post("/users", cors(), async (req, res, next) => {
       httpOnly: true,
       maxAge: 2880000,
     });
-    res.header("Access-Control-Allow-Credentials", true);
     
-    return res.json({ status: 200 , message: token});
+    return res.json({ status: 200 , message: token, header: {"Access-Control-Allow-Credentials": true}}, Headers = {"Access-Control-Allow-Credentials": true});
   } catch (error) {
-    res.json({ status: 200 , message: error.message });
+    res.json({ status: 200 , message: error.message , header: {"Access-Control-Allow-Credentials": true}}, Headers = {"Access-Control-Allow-Credentials": true});
   }
 });
 
