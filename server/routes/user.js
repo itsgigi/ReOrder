@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { setCookie } from 'cookies-next';
 
 const router = express.Router();
 
@@ -20,8 +21,11 @@ router.post("/users", async (req, res, next) => {
     }
 
     const token = jwt.sign({ username: user.username }, 'jwttokenkey123encrp../$$1%unique.', { expiresIn: '8h' })
-    res.cookie('token', token, { httpOnly: true, maxAge: 2880000 });
-    next();
+    setCookie('token', token, {
+      httpOnly: true,
+      maxAge: 2880000,
+      path: '/'
+    });
     
     return res.json({ status: 200 , message: token});
   } catch (error) {
