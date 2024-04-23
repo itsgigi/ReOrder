@@ -24,8 +24,8 @@ router.post("/users", async (req, res, next) => {
     setCookie('token', token, {
       httpOnly: true,
       maxAge: 2880000,
-      path: '/'
     });
+    
     
     return res.json({ status: 200 , message: token});
   } catch (error) {

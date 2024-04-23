@@ -24,8 +24,8 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var corsOptions = {
-  credentials: true,
-  origin: ["http://localhost:5173"]
+  origin: ["http://localhost:5173"],
+  credentials: true
 }
 app.use(cors(corsOptions));
 app.use(cookieParser());
