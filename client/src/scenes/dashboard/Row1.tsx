@@ -8,7 +8,7 @@ const Row1 = () => {
   const { data: loggedData, isLoading } = useIsLoggedInQuery();
 
   useEffect(() => {
-    if(!isLoading) console.log(loggedData)
+    if(!isLoading) console.log('loggedData', loggedData)
   },[])
 
   return (
