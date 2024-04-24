@@ -94,13 +94,12 @@ export const api = createApi({
       }),
       invalidatesTags: ['Users'],
     }),
-    isLoggedIn: build.mutation({
-      query: (body) => ({
+    isLoggedIn: build.query<any, void>({
+      query: () => ({
         url:"user/users/",
-        credentials: "include",
-        body
+        credentials: "include"
       }),
-      invalidatesTags: ["Users"],
+      providesTags: ["Users"],
     }),
     updateOrder: build.mutation<GetTransactionsResponse, any>({
       query: ({ id, ...patch }) => ({
@@ -132,5 +131,5 @@ export const api = createApi({
   }),
 });
 
-export const { useLoginMutation, useIsLoggedInMutation, useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
+export const { useLoginMutation, useIsLoggedInQuery, useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
   api;

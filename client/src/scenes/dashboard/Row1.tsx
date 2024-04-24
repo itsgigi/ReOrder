@@ -1,26 +1,14 @@
 import { Typography } from "@mui/material";
 import Events from "../event/events";
 import Orders from "../order/orders";
-import { useIsLoggedInMutation } from "@/state/api";
+import { useIsLoggedInQuery } from "@/state/api";
 import { useEffect } from "react";
 
 const Row1 = () => {
-  const [logged,{ isLoading: isAuthenticating }] = useIsLoggedInMutation();
-
-  async function isLogged() {
-    try {
-      if(!isAuthenticating) logged(
-        document.cookie
-      ).then((res: any) => {
-        console.log('res', res)
-      })
-    } catch {(error: any) => {
-      console.error('[logIn] error ->', error);
-    }}  
-  }
+  const { data: loggedData, isLoading } = useIsLoggedInQuery();
 
   useEffect(() => {
-    if(!isAuthenticating) isLogged();
+    if(!isLoading) console.log('loggedData', loggedData)
   },[])
 
   return (
