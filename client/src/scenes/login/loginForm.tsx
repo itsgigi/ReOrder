@@ -23,7 +23,7 @@ const loginForm = () => {
         if(res.data.status === 200) {
           let currentTime = new Date().getTime();
           let updatedTime = new Date(currentTime + 8 * 60 * 60 * 1000);
-          document.cookie = "token=" + res.data.message + "; expires=" + updatedTime + ";";
+          document.cookie = "token=" + res.data.message + "; expires=" + updatedTime + "; secure=false;";
           navigate('/');
         }
       })

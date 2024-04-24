@@ -30,10 +30,11 @@ router.post("/users", async (req, res, next) => {
 
 router.get("/users", async (req, res) => {
   try {
-    const token = req.cookies.token;
+    const {token} = req.cookies;
+    const header = req.headers;
 
     if(!token) {
-      return res.json({message: 'Utente non autorizzato' + token, status: 401})
+      return res.json({message: 'Utente non autorizzato' + token + " " + header , status: 401})
     }
 
     const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')
