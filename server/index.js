@@ -24,7 +24,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-var whitelist = ['http://localhost:5173', 'https://re-order-client.vercel.app/' ]
+var whitelist = ['http://localhost:5173', 'https://re-order-client.vercel.app' ]
 var corsOptions = {
   origin: function(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
