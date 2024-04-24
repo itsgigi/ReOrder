@@ -31,7 +31,7 @@ router.post("/users", async (req, res, next) => {
 router.get("/users", async (req, res) => {
   try {
     const {token} = req.cookies;
-    const header = req.headers;
+    const header = req.headers["authorization"];
 
     if(!token) {
       return res.json({message: 'Utente non autorizzato' + token + " " + header , status: 401})
