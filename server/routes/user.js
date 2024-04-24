@@ -28,15 +28,16 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+const verifyUser = async (req, res, next) => {
   try {
-    const token = req.signedCookies.token;
+    const {token} = req.cookies;
 
     if(!token) {
       return res.json({message: 'Utente non autorizzato' + token, status: 401})
     }
 
     const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')
+    next();
 
     if(decoded) {
       return res.json({ status: 200 , message: "Accesso con utenza permesso" + token});
@@ -46,6 +47,10 @@ router.get("/users", async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-});
+};
+
+router.get("/users", verifyUser, async (req, res) => {
+  return res.json({status: 200 , message: "Accesso con utenza permesso"})
+})
 
 export default router;
