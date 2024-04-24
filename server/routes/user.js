@@ -28,7 +28,7 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.post("/users", async (req, res) => {
   try {
     const token = req.body;
 
