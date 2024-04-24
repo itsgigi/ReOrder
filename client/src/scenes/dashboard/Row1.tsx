@@ -5,7 +5,7 @@ import { useIsLoggedInQuery } from "@/state/api";
 import { useEffect } from "react";
 
 const Row1 = () => {
-  const { data: loggedData, isLoading } = useIsLoggedInQuery();
+  const { data: loggedData, isLoading } = useIsLoggedInQuery(document.cookie);
 
   useEffect(() => {
     if(!isLoading) console.log('loggedData', loggedData)

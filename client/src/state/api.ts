@@ -94,10 +94,11 @@ export const api = createApi({
       }),
       invalidatesTags: ['Users'],
     }),
-    isLoggedIn: build.query<any, void>({
-      query: () => ({
+    isLoggedIn: build.query<any, any>({
+      query: (body) => ({
         url:"user/users/",
-        credentials: "include"
+        credentials: "include",
+        body
       }),
       providesTags: ["Users"],
     }),

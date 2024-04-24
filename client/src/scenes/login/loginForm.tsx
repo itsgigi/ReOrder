@@ -20,13 +20,15 @@ const loginForm = () => {
           password
         }
       ).then((res: any) => {
-        document.cookie = res.message;
         if(res.data.status === 200) {
-          navigate('/')
+          let currentTime = new Date().getTime();
+          let updatedTime = new Date(currentTime + 8 * 60 * 60 * 1000);
+          document.cookie = "token=" + res.data.message + "; expires=" + updatedTime + ";";
+          navigate('/');
         }
       })
     } catch {(error: any) => {
-      console.error('[logIn] error ->', error)
+      console.error('[logIn] error ->', error);
     }}  
   }
 
