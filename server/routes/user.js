@@ -30,7 +30,7 @@ router.post("/users", async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
   try {
-    const token = req.headers['authorization'];
+    const token = req.headers['Credentials'];
 
     if(!token) {
       return res.json({message: 'Utente non autorizzato ' + token, status: 401})
