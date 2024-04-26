@@ -2,13 +2,13 @@ import { useLoginMutation } from "@/state/api";
 import { Button, Input, Typography } from "@mui/material";
 import { useState } from "react"
 import { FaEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 const loginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [login,{ isLoading: isAuthenticating }] = useLoginMutation();
 
   async function logIn(e: any) {
@@ -24,8 +24,9 @@ const loginForm = () => {
           let currentTime = new Date().getTime();
           let updatedTime = new Date(currentTime + 8 * 60 * 60 * 1000);
           document.cookie = "token=" + res.data.message + "; expires=" + updatedTime + "; secure=true;";
-          document.cookie = "role=" + res.data.role + ";";
-          navigate('/');
+          document.cookie = "role=" + res.data.user + ";";
+          //navigate('/', { replace: true });
+          location.replace('/'); // instead of navigate to force refresh
         }
       })
     } catch {(error: any) => {
