@@ -20,7 +20,7 @@ export const api = createApi({
     prepareHeaders: (headers) => {
       headers.set('Access-Control-Allow-Credentials', 'true');
       let token = getCookie('token')
-      headers.set('Credentials', `${token}`);
+      headers.set('token', `${token}`);
       return headers;
     }, 
   }),
