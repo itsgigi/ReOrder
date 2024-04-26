@@ -7,15 +7,15 @@ import ProductList from "./productsList";
 
 const CreateOrderForm = () => {
   const [createOrder,{ isLoading: isUpdating }] = useCreateOrderMutation();
-  const [productList, setProductList] = useState<{productId: string, quantity: number}[]>([{productId: 'product', quantity: 0}]);
+  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string}[]>([{productId: 'product', quantity: 0, company: ''}]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(0);
   const [creator, setCreator] = useState('');
   const { palette } = useTheme();
 
-  function addProductToList(product: string, quantity: number, price: number) {
-    setProductList([...productList, {productId: product, quantity: quantity}]);
+  function addProductToList(product: string, quantity: number, price: number, company: string) {
+    setProductList([...productList, {productId: product, quantity: quantity, company: company}]);
     let total = tot + (price * quantity);
     setTot(total);
   }

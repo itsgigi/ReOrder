@@ -23,15 +23,17 @@ type ProductListProps = {
 export default function ProductList({addProduct}: ProductListProps) {
   const { data: productData } = useGetProductsQuery();
   //@ts-ignore
-  const productList = productData && productData.map(prod => prod.name + ' - PREZZO:' + prod.price.toString());
+  const productList = productData && productData.map(prod => prod.name + ' - PREZZO:' + prod.price.toString() + ' - AZIENDA:' + prod.company);
   const [product, setProduct] = useState('');
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [company, setCompany] = useState('');
   const { palette } = useTheme();
 
   function addToOrder() {
-    addProduct(product, quantity, price);
+    addProduct(product, quantity, price, company);
     setProduct('');
+    setCompany('');
     setQuantity(0);
     setPrice(0);
   }
@@ -47,7 +49,7 @@ export default function ProductList({addProduct}: ProductListProps) {
           key={product}
           options={productList!}
           sx={{ width: 240 }}
-          renderInput={(params: any) => <TextField {...params} sx={{ backgroundColor: '#4e8098', borderRadius: 2 }} label={product} onBlur={e => {setProduct(e.target.value), setPrice(parseFloat(e.target.value.split(':')[1]))}}/>}
+          renderInput={(params: any) => <TextField {...params} sx={{ backgroundColor: '#4e8098', borderRadius: 2 }} label={product} onBlur={e => {setProduct(e.target.value), setPrice(parseFloat(e.target.value.split(':')[1])),  setCompany(e.target.value.split(':')[2]) }}/>}
           />
 
           <Typography style={{fontSize: 10, color: palette.primary[900], margin: 8}}>Quantità</Typography>

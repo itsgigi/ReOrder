@@ -5,6 +5,7 @@ import {
 } from "@/state/api";
 import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Row3 = () => {
@@ -13,6 +14,14 @@ const Row3 = () => {
   const navigate = useNavigate();
 
   const productColumns = [
+    {
+      field: "_id",
+      headerName: "Azioni",
+      flex: 0.70,
+      renderCell: (params: GridCellParams) => <div style={{display: 'flex',position: 'relative'}}>
+                                                <div style={{cursor: 'pointer',display:'flex', justifyContent: 'center', alignItems: 'center', border:'solid 1px black', width: 30, height: 32, borderRadius: 4, color: '#6799ac'}} onClick={() => navigate('/companyOrder/' + params.id)}><FaEye /></div>
+                                              </div>,
+    },
     {
       field: "name",
       headerName: "Nome",

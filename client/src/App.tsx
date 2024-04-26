@@ -20,6 +20,7 @@ import PreviewEvent from "./scenes/event/previewEvent";
 import Login from "./scenes/login";
 import ProtectedRoute from "./scenes/ProtectedRoute";
 import { useIsLoggedInQuery } from "./state/api";
+import CompanyOrder from "./scenes/company/companyOrder";
 /*
 import Predictions from "@/scenes/predictions"; */
 
@@ -64,6 +65,7 @@ function App() {
 
                 <Route path="/companies" element={<Companies />} />
                 <Route path="/addCompany" element={<AddCompany />} />
+                <Route path="/companyOrder/:companyId" element={<CompanyOrder />} />
 
                 <Route path="/shifts" element={<ShiftsTable />} />
               </Route>

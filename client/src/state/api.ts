@@ -48,6 +48,11 @@ export const api = createApi({
       query: () => "company/companies/",
       providesTags: ["Companies"],
     }),
+    getCompanyById: build.query<GetCompanyResponse, string>({
+      query: (id) => ({ url: `company/companies/${id}` }),
+      //@ts-ignore
+      providesTags: (result, error, id) => [{ type: 'Companies', id }],
+    }),
     getEvents: build.query<Array<GetEventResponse>, void>({
       query: () => "event/events/",
       providesTags: ["Events"],
@@ -139,5 +144,5 @@ export const api = createApi({
   }),
 });
 
-export const { useLoginMutation, useIsLoggedInQuery, useGetKpisQuery, useGetCompaniesQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
+export const { useLoginMutation, useIsLoggedInQuery, useGetKpisQuery, useGetCompaniesQuery, useGetCompanyByIdQuery, useGetProductsQuery, useGetTransactionsQuery, useGetTransactionsByIdQuery, useGetWaitersQuery, useAddProductMutation, useAddCompanyMutation, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation, useGetEventsQuery, useAddEventMutation, useGetEventByIdQuery } =
   api;
