@@ -28,7 +28,7 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users", async (req, res, next) => {
   try {
     const token = req.headers['token'];
 
