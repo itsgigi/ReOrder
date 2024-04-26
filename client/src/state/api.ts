@@ -8,12 +8,20 @@ import {
   GetWaiterResponse,
 } from "./types";
 
+function getCookie(name: string) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ 
     baseUrl: 'https://re-order-server.vercel.app/',
     prepareHeaders: (headers) => {
-    headers.set('Access-Control-Allow-Credentials', 'true')
-      return headers
+      headers.set('Access-Control-Allow-Credentials', 'true');
+      let token = getCookie('token')
+      headers.set('Credentials', `${token}`);
+      return headers;
     }, 
   }),
   reducerPath: "main",
