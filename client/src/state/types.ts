@@ -37,6 +37,13 @@ export interface ExpensesByCategory {
     name: string;
     workingDates: Date[];
   }
+
+  export interface User {
+    username: String,
+    email: String,
+    password: String,
+    role: String,
+  }
   
   export interface GetKpisResponse {
     id: string;
