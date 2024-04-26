@@ -28,7 +28,7 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
-const verifyUser = async (req, res, next) => {
+router.get("/users", async (req, res) => {
   try {
     const token = req.headers['Token'];
 
@@ -47,10 +47,6 @@ const verifyUser = async (req, res, next) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
-
-router.get("/users", verifyUser, async (req, res) => {
-  return res.json({status: 200 , message: "Accesso con utenza permesso"})
 })
 
 export default router;
