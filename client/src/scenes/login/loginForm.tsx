@@ -24,6 +24,7 @@ const loginForm = () => {
           let currentTime = new Date().getTime();
           let updatedTime = new Date(currentTime + 8 * 60 * 60 * 1000);
           document.cookie = "token=" + res.data.message + "; expires=" + updatedTime + "; secure=true;";
+          document.cookie = "role=" + res.data.role + ";";
           navigate('/');
         }
       })

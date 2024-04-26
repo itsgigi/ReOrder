@@ -22,7 +22,7 @@ router.post("/users", async (req, res, next) => {
     const token = jwt.sign({ username: user.username }, 'jwttokenkey123encrp../$$1%unique.', { expiresIn: '8h' })
     res.cookie('token', token, { httpOnly: true, maxAge: 2880000 });
     
-    return res.json({ status: 200 , message: token});
+    return res.json({ status: 200 , message: token, role: user.role});
   } catch (error) {
     res.json({ status: 200 , message: error.message });
   }
@@ -33,7 +33,7 @@ router.get("/users", async (req, res, next) => {
     const token = req.headers['token'];
 
     if(!token) {
-      return res.json({message: 'Utente non autorizzato ' + req.headers, status: 401})
+      return res.json({message: 'Utente non autorizzato', status: 401})
     }
 
     const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')

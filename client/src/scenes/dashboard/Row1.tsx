@@ -8,8 +8,14 @@ const Row1 = () => {
   const { data: loggedData, isLoading } = useIsLoggedInQuery();
 
   useEffect(() => {
-    if(!isLoading) console.log('loggedData', loggedData)
-  },[])
+    if(!isLoading && loggedData) console.log('role:', getCookie('role'));
+  },[]);
+
+  function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+  }
 
   return (
     <>
