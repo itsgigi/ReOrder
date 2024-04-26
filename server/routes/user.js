@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 const router = express.Router();
 
-router.post("/users", async (req, res, next) => {
+router.post("/users", async (req, res) => {
   try {
     const {email, password} = req.body;
     const user = await User.findOne({email})
@@ -22,9 +22,9 @@ router.post("/users", async (req, res, next) => {
     const token = jwt.sign({ username: user.username }, 'jwttokenkey123encrp../$$1%unique.', { expiresIn: '8h' })
     res.cookie('token', token, { httpOnly: true, maxAge: 2880000 });
     
-    return res.json({ status: 200 , message: token, role: user.role});
+    return res.json({ status: 200 , message: token, user: user.role});
   } catch (error) {
-    res.json({ status: 200 , message: error.message });
+    res.json({ status: 404 , message: error.message });
   }
 });
 
