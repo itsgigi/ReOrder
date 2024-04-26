@@ -30,19 +30,19 @@ router.post("/users", async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.headers['authorization'];
 
     if(!token) {
-      return res.json({message: 'Utente non autorizzato' + token, status: 401})
+      return res.json({message: 'Utente non autorizzato ' + token, status: 401})
     }
 
     const decoded = await jwt.verify(token, 'jwttokenkey123encrp../$$1%unique.')
     next();
 
     if(decoded) {
-      return res.json({ status: 200 , message: "Accesso con utenza permesso" + token});
+      return res.json({ status: 200 , message: "Accesso con utenza permesso " + token});
     } else {
-      return res.json({ status: 500 , message: "Errore nell'autenticazione" + token});
+      return res.json({ status: 500 , message: "Errore nell'autenticazione " + token});
     }
   } catch (error) {
     res.status(404).json({ message: error.message });
