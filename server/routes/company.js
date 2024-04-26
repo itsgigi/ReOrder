@@ -14,15 +14,14 @@ router.get("/companies", async (req, res) => {
   }
 });
 
-router.get('/companies/:CompanyId', async (req, res) => {
+router.get('/companies/:companyId', async (req, res) => {
   try {
-      const transactions = await Company.findById(req.params.orderId).exec();
-      res.status(200).json(transactions);
+      const company = await Company.findById(req.params.companyId).exec();
+      res.status(200).json(company);
   } catch (error) {
       res.status(404).json({ message: error.message });
   }
 });
-
 
 router.post("/companies", async (req, res) => {
   let newDocument = req.body;
