@@ -3,14 +3,15 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-//import { isUserAdmin } from "@/lib/utils";
 import { Waiter } from "@/state/types";
 import { useGetWaitersQuery } from '@/state/api';
 import { Typography } from '@mui/material';
+import { getCookie } from '@/utils/getCookie';
 
 const WaitersTable = () => {
   const { data: waiters, isLoading: isWaitersLoading } = useGetWaitersQuery();
-  //let isAdimn = isUserAdmin();
+  let role = getCookie('role');
+  const isAdmin = role === "Admin" ? true : false;
 
   function calcuteWaiterTot(waiter: Waiter) {
     let tot = 0;
@@ -33,7 +34,7 @@ const WaitersTable = () => {
   return (
     <div style={{paddingBottom: 14}}>
       {
-      //isAdimn && 
+      isAdmin && 
       <>
         <Typography style={{fontSize: 16, color: 'black', marginBottom: 8, marginTop: 8}}>Camerieri</Typography>
         <Table style={{border: 1, borderRadius: 4, backgroundColor: 'lightgrey'}}>

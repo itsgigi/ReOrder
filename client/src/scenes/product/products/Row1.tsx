@@ -3,6 +3,7 @@ import DashboardBox from "@/components/DashboardBox";
 import {
   useGetProductsQuery,
 } from "@/state/api";
+import { getCookie } from "@/utils/getCookie";
 import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,8 @@ const Row3 = () => {
   const { palette } = useTheme();
   const { data: productData, isLoading } = useGetProductsQuery();
   const navigate = useNavigate();
+  let role = getCookie('role');
+  const isAdmin = role === "Admin" ? true : false;
 
   const productColumns = [
     {
@@ -29,7 +32,7 @@ const Row3 = () => {
       field: "price",
       headerName: "Prezzo",
       flex: 0.5,
-      renderCell: (params: GridCellParams) => `€${params.value}`,
+      renderCell: (params: GridCellParams) => `${isAdmin ? '€'+params.value : '/'}`,
     },
   ];
 

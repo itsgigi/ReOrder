@@ -2,6 +2,7 @@ import { GetCompanyResponse, GetTransactionsResponse, IProductIds } from "@/stat
 import { useGetTransactionsQuery } from "@/state/api";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
+import ReactWhatsapp from 'react-whatsapp';
 
 type PreviewCompanyFormProps = {
     orderData: GetCompanyResponse
@@ -54,6 +55,10 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
             {productList.map((product) => {
                 return <div>{product.productId} - {product.quantity}</div>
             })}
+            {
+                //@ts-ignore
+                <ReactWhatsapp number="3274510693" message={productList}>Apri in Whatsapp</ReactWhatsapp>
+            }
           </div>
       </>
     );
