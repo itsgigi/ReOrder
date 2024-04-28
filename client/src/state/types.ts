@@ -97,7 +97,13 @@ export interface ExpensesByCategory {
     __v: number;
     buyer: string;
     amount: number;
-    productIds: Array<string>;
+    productIds: Array<IProductIds>;
     createdAt: string;
     updatedAt: string;
+  }
+
+  export interface IProductIds {
+    productId: string,
+    quantity: string,
+    company: string
   }

@@ -12,7 +12,8 @@ const TransactionSchema = new Schema(
     productIds: [
       {
         productId: String,
-        quantity: String
+        quantity: String,
+        company: String
       },
     ],
   },

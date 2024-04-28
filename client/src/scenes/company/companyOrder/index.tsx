@@ -5,8 +5,7 @@ import { useGetCompanyByIdQuery } from "@/state/api";
 
 const CompanyOrder = () => {
   let { companyId } = useParams();
-  console.log('params',companyId)
-  const { data: companyData } = useGetCompanyByIdQuery(companyId!);
+  const { data: companyData, isLoading } = useGetCompanyByIdQuery(companyId!);
 
   return (
     <Box
@@ -15,7 +14,7 @@ const CompanyOrder = () => {
       display="grid"
       gap="1.5rem"
     >
-      <Content orderData={companyData!} />
+     {!isLoading && <Content orderData={companyData!} />}
     </Box>
     
   );

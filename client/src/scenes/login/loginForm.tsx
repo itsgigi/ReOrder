@@ -10,6 +10,7 @@ const loginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   //const navigate = useNavigate();
   const [login,{ isLoading: isAuthenticating }] = useLoginMutation();
+  const [error, setError] = useState('');
 
   async function logIn(e: any) {
     e.preventDefault();
@@ -27,6 +28,8 @@ const loginForm = () => {
           document.cookie = "role=" + res.data.user + ";";
           //navigate('/', { replace: true });
           location.replace('/'); // instead of navigate to force refresh
+        } else {
+          setError('Email o Password errati')
         }
       })
     } catch {(error: any) => {
@@ -46,7 +49,7 @@ const loginForm = () => {
                 <Input type={showPassword ? "string" : "password"} style={{backgroundColor: '#fcf7f8', width: '100%', fontSize: 14, color: '#4e8098', marginBottom: 8, border: 'solid 1px grey', borderRadius: 6}} value={password} onChange={(e) => setPassword(e.target.value)} />
                 <FaEye style={{display: 'flex', position:'absolute', right: 8, top: 8}} onClick={() => setShowPassword(!showPassword)}/>
             </div>
-            
+            <Typography style={{color: 'red'}}>{error}</Typography>
             <Button style={{fontSize: 18}} onClick={(e) => logIn(e)}>Accedi</Button>
         </div>
     </>
