@@ -44,6 +44,16 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
         }
     }
 
+    function parseProductListToString() {
+        let finalString = "";
+
+        {productList.map((product) => {
+            finalString = finalString + '\n' + product.productId + product.quantity;
+        })}
+
+        return finalString;
+    }
+
     useEffect(() => {
        if(!isLoading) filterOrdersByCompany(transactionData!);
     }, [isLoading]);
@@ -57,7 +67,7 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
             })}
             {
                 //@ts-ignore
-                <ReactWhatsapp number="3274510693" message={productList}>Apri in Whatsapp</ReactWhatsapp>
+                <ReactWhatsapp number={orderData.phoneNumber ? orderData.phoneNumber : '3274510693'} message={parseProductListToString()}>Apri in Whatsapp</ReactWhatsapp>
             }
           </div>
       </>

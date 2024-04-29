@@ -75,6 +75,7 @@ export interface ExpensesByCategory {
     name: string;
     orderDate: string;
     deliveryDate: string;
+    phoneNumber: string;
   }
 
   export interface GetEventResponse {

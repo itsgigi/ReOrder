@@ -6,7 +6,8 @@ const CompanySchema = new Schema(
   {
     name: String,
     orderDate: String,
-    deliveryDate: String
+    deliveryDate: String,
+    phoneNumber: String
   },
   { toJSON: { getters: true } }
 );
