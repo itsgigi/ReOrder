@@ -39,6 +39,12 @@ const Row3 = () => {
       flex: 0.5,
       renderCell: (params: GridCellParams) => `${params.value}`,
     },
+    {
+      field: "phoneNumber",
+      headerName: "Numero di tel",
+      flex: 0.5,
+      renderCell: (params: GridCellParams) => `${params.value}`,
+    },
   ];
 
   return (

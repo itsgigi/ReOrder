@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 //import ProductsList from "./productsList";
 import { useCreateOrderMutation } from "@/state/api";
 import ProductList from "./productsList";
+import { getCookie } from "@/utils/getCookie";
 
 const CreateOrderForm = () => {
   const [createOrder,{ isLoading: isUpdating }] = useCreateOrderMutation();
@@ -11,8 +12,8 @@ const CreateOrderForm = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(0);
-  const [creator, setCreator] = useState('');
   const { palette } = useTheme();
+  let userName = getCookie('name');
 
   function addProductToList(product: string, quantity: number, price: number, company: string) {
     setProductList([...productList, {productId: product, quantity: quantity, company: company}]);
@@ -36,7 +37,7 @@ const CreateOrderForm = () => {
     try {
       if(!isUpdating) createOrder(
         {
-          buyer: creator,
+          buyer: userName,
           amount: tot,
           productIds: productList,
         }
@@ -51,7 +52,7 @@ const CreateOrderForm = () => {
     <>
         <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: 'flex', flexDirection: 'column', gap: 12, height: 'max-content', padding: 16, width: '100%', boxShadow: "0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9)"}}>
             <Typography style={{fontSize: 16, color: palette.primary[900], marginBottom: 8}}>Crea Nuovo Ordine</Typography>
-            <Input type="string" style={{fontSize: 14, color: palette.primary[500]}} placeholder="Tuo nome" value={creator} onChange={e => setCreator(e.target.value)} />
+            <Input type="string" style={{fontSize: 14, color: palette.primary[500]}} placeholder="userName" value={userName} disabled />
             <ProductList addProduct={addProductToList}/>
             <Typography style={{fontSize: 16, color: palette.primary[900]}}>Lista prodotti selezionati</Typography>
             {productList.map((product, index) => 

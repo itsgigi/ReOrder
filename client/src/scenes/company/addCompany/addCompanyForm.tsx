@@ -10,6 +10,7 @@ const AddCompanyForm = () => {
   const [name, setName] = useState('');
   const [orderDate, setOrderDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   
@@ -20,7 +21,8 @@ const AddCompanyForm = () => {
           _id: "63bf7ccef03239e" + Math.round(Math.random() * (199999999 - 1000000000) + 1000000000).toString(),
           name: name,
           orderDate: orderDate,
-          deliveryDate: deliveryDate
+          deliveryDate: deliveryDate,
+          phoneNumber: phoneNumber
         }
       ).then(() => {setOpen(true)}
       ).finally( () => navigate('/companies') )
@@ -40,6 +42,8 @@ const AddCompanyForm = () => {
             <Input style={{fontSize: 14, color: '#4e8098'}} placeholder="Giorno entro cui ordinare" onChange={e => setOrderDate(e.target.value)} />
             <Typography style={{fontSize: 14, color: '#043028'}}>Consegna</Typography>
             <Input style={{fontSize: 14, color: '#4e8098', marginBottom: 8}} placeholder="Giorno di consegna" onChange={e => setDeliveryDate(e.target.value)} />
+            <Typography style={{fontSize: 14, color: '#043028'}}>Numero</Typography>
+            <Input style={{fontSize: 14, color: '#4e8098'}} placeholder="Numero di telefono" onChange={e => setPhoneNumber(e.target.value)} />
 
             <Button style={{fontSize: 18}} onClick={createCompany} disabled={name === ''} >Aggiungi</Button>
         </div>
