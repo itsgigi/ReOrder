@@ -39,7 +39,7 @@ const CreateOrderForm = () => {
         {
           buyer: userName,
           amount: tot,
-          productIds: productList,
+          productIds: productList
         }
       ).then(() => {setOpen(true)}
       ).finally( () => navigate('/orders') )

@@ -46,7 +46,7 @@ const Navbar = () => {
           onClick={() => handleSelection("login")}
           style={{
             alignItems: 'center', display: 'flex',
-            color: selected === "login" ? "inherit" : palette.grey[700],
+            color: selected === "login" ? "inherit" : palette.grey[600],
             textDecoration: "inherit"
           }}
         >
@@ -62,7 +62,7 @@ const Navbar = () => {
         onClick={() => handleSelection("dashboard")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "dashboard" ? "inherit" : palette.grey[700],
+          color: selected === "dashboard" ? "inherit" : palette.grey[600],
           textDecoration: "inherit"
         }}
       >
@@ -75,7 +75,7 @@ const Navbar = () => {
         onClick={() => handleSelection("orders")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "orders" ? "inherit" : palette.grey[700],
+          color: selected === "orders" ? "inherit" : palette.grey[600],
           textDecoration: "inherit",
         }}
       >
@@ -88,7 +88,7 @@ const Navbar = () => {
         onClick={() => handleSelection("products")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "products" ? "inherit" : palette.grey[700],
+          color: selected === "products" ? "inherit" : palette.grey[600],
           textDecoration: "inherit",
         }}
       >
@@ -101,7 +101,7 @@ const Navbar = () => {
         onClick={() => handleSelection("companies")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "companies" ? "inherit" : palette.grey[700],
+          color: selected === "companies" ? "inherit" : palette.grey[600],
           textDecoration: "inherit",
         }}
       >
@@ -114,20 +114,20 @@ const Navbar = () => {
         onClick={() => handleSelection("shifts")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "shifts" ? "inherit" : palette.grey[700],
+          color: selected === "shifts" ? "inherit" : palette.grey[600],
           textDecoration: "inherit",
         }}
       >
         <FaCalendarTimes style={{marginRight: 4}}/>Turni
       </Link>
     </Box>
-    <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+    <Box sx={{ "&:hover": { color: palette.primary[300] } }}>
       <Link
         to="/events"
         onClick={() => handleSelection("events")}
         style={{
           alignItems: 'center', display: 'flex',
-          color: selected === "predictions" ? "inherit" : palette.grey[700],
+          color: selected === "predictions" ? "inherit" : palette.grey[600],
           textDecoration: "inherit",
         }}
       >

@@ -15,7 +15,7 @@ const TransactionSchema = new Schema(
         quantity: String,
         company: String
       },
-    ],
+    ]
   },
   { timestamps: true, toJSON: { getters: true } }
 );

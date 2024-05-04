@@ -5,8 +5,10 @@ import {
   useDeleteOrderMutation,
   useGetTransactionsQuery,
 } from "@/state/api";
+import { getCookie } from "@/utils/getCookie";
 import { Box, Button, CircularProgress, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import moment from "moment";
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +25,8 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState('');
+  let role = getCookie('role');
+  const isAdmin = role === "Admin" ? true : false;
 
   const handleClickOpen = (id: string) => {
     setIdToDelete(id);
@@ -63,7 +67,13 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
       field: "amount",
       headerName: "Totale",
       flex: 0.35,
-      renderCell: (params: GridCellParams) => `€${params.value}`,
+      renderCell: (params: GridCellParams) => `${isAdmin ? '€'+params.value : '/'}`,
+    },
+    {
+      field: "createdAt",
+      headerName: "Data",
+      flex: 0.35,
+      renderCell: (params: GridCellParams) => `${moment(params.value as string).format("DD-MM-YYYY")}`,
     }/* ,
     {
       field: "productIds",

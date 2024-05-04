@@ -14,13 +14,13 @@ const ProtectedRoute = ({
 
     useEffect(() => {
         if(!isLoading) {
-        if(loggedData){ 
-            setRedirectPath('/');
-        } else {
-            setRedirectPath('/login');
+            if(loggedData){ 
+                setRedirectPath('/');
+            } else {
+                setRedirectPath('/login');
+            }
         }
-        }
-    },[loggedData]);
+    },[isLoading]);
 
     if (!user) {
       return <Navigate to={redirectPath} replace />;

@@ -45,7 +45,7 @@ export const tokens = {
     },
     typography: {
       fontFamily: ["Red Hat Display", "sans-serif"].join(","),
-      fontSize: 12,
+      fontSize: 14,
       h1: {
         fontFamily: ["Red Hat Display", "sans-serif"].join(","),
         fontSize: 32,
@@ -68,13 +68,13 @@ export const tokens = {
       },
       h5: {
         fontFamily: ["Red Hat Display", "sans-serif"].join(","),
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 400,
         color: tokens.grey[300],
       },
       h6: {
         fontFamily: ["Red Hat Display", "sans-serif"].join(","),
-        fontSize: 10,
+        fontSize: 12,
         color: tokens.grey[700],
       },
     },
