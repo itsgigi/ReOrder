@@ -13,15 +13,15 @@ type EditOrderFormProps = {
 const EditOrderForm = ({orderData}: EditOrderFormProps) => {
   const [updateOrder,{ isLoading: isUpdating }] = useUpdateOrderMutation();
   //@ts-ignore
-  const [productList, setProductList] = useState<{productId: string, quantity: number}[]>(orderData.productIds);
+  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string}[]>(orderData.productIds);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(orderData.amount);
   const [creator, setCreator] = useState(orderData.buyer);
   const { palette } = useTheme();
 
-  function addProductToList(product: string, quantity: number, price: number) {
-    setProductList([...productList, {productId: product, quantity: quantity}]);
+  function addProductToList(product: string, quantity: number, price: number, company: string) {
+    setProductList([...productList, {productId: product, quantity: quantity, company: company}]);
     let total = tot + (price * quantity);
     setTot(total);
   }
@@ -34,6 +34,34 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
       let price = parseFloat(prod.productId.split(':')[1]); 
       if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * price);} 
     });
+    setProductList(tempList);
+    setTot(total);
+  }
+
+  function changeProductQuantity(product: string, value: number) {
+    let tempList: { productId: string; quantity: number; company: string; }[] = [];
+    let total = 0;
+    tempList = productList.map(prod => {
+      if(prod.productId === product) {
+        return {
+        productId: prod.productId,
+        quantity: value,
+        company: prod.company
+        }
+      } else {
+        return {
+          productId: prod.productId,
+          quantity: prod.quantity,
+          company: prod.company
+        }
+      }
+    })
+
+    productList.forEach((prod) => {
+      let price = parseFloat(prod.productId.split(':')[1]); 
+      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * price);} 
+    });
+    console.log(tempList)
     setProductList(tempList);
     setTot(total);
   }
@@ -66,7 +94,11 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
                 return <div style={{display: 'flex', flexDirection:'column'}}>
                         {product.quantity > 0 && 
                           <div style={{display: 'flex', gap: 8, alignItems: 'center', borderBottom: `solid 1px ${palette.primary[500]}`}}>
-                            <Typography style={{color: palette.primary[500]}}>{product.productId} - {product.quantity}</Typography>
+                            <Typography style={{color: palette.primary[500]}}>{product.productId}</Typography>
+                            <div>
+                              <Typography style={{color: palette.primary[500]}}>QUANTITÀ</Typography>
+                              <Input style={{fontSize: 12}} value={product.quantity} onChange={(e) => changeProductQuantity(product.productId, parseInt(e.target.value))}/>
+                            </div> 
                             <Button style={{fontSize: 12}} onClick={() => removeProductFromList(product.productId)} disabled={false} >Rimuovi</Button>
                           </div>
                         }

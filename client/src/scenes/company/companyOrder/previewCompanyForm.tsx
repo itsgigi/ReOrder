@@ -1,23 +1,34 @@
 import { GetCompanyResponse, GetTransactionsResponse, IProductIds } from "@/state/types";
-import { useGetTransactionsQuery } from "@/state/api";
+import { useGetTransactionsQuery, useUpdateOrderMutation } from "@/state/api";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import ReactWhatsapp from 'react-whatsapp';
+import Button from '@mui/material/Button';
+import AlertDialog from "@/components/AlertDialog";
 
 type PreviewCompanyFormProps = {
     orderData: GetCompanyResponse
 }
+
+type ProductList = {
+    productId: string, 
+    quantity: string
+}
   
 const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     const { data: transactionData, isLoading } = useGetTransactionsQuery();
-    const [productList, setProductList] = useState<{productId: string, quantity: string}[]>([{productId: 'product', quantity: ''}]);
-    let temp: {productId: string, quantity: string}[] = []
+    const [updateOrder,{ isLoading: isUpdating }] = useUpdateOrderMutation();
+    const [productList, setProductList] = useState<ProductList[]>([{productId: 'product', quantity: ''}]);
+    let temp: {productId: string, quantity: string}[] = [];
+    const [open, setOpen] = useState(false);
 
     const filterOrdersByCompany = (transactionData: GetTransactionsResponse[]) => {
-        return transactionData.map((order) => { 
-            order.productIds.map((prod) => {
+        return transactionData.map((order:any) => { 
+            order.productIds.map((prod:any) => {
+                console.log('prod e check', prod, order)
                 if(prod.company === orderData.name){
                     const isProductInList = checkIsProductInList(prod);
+                    console.log('prod e check', prod, order, isProductInList)
                     if(!isProductInList){
                         temp.push({productId: prod.productId, quantity: prod.quantity});
                     }
@@ -48,11 +59,46 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
         let finalString = "";
 
         {productList.map((product) => {
-            finalString = finalString + '\n' + product.productId + product.quantity;
+            finalString = finalString + '\n' + product.productId.replace("- PREZZO:", '').replace(product.productId.split(':')[1], '').replace("- AZIENDA:", '').replace(product.productId.split(':')[2], '') + " QUANTITÀ:" + product.quantity; // Rimuovo prezzo e azienda da productIds
         })}
 
         return finalString;
     }
+
+    async function removeFromOrder(id: string, creator: string, tot: any, productList: ProductList[] ) {
+        try {
+          if(!isUpdating) updateOrder(
+            {
+                id: id,
+                buyer: creator,
+                amount: tot,
+                productIds: productList,
+            }
+          )
+        } catch {(error: any) => {
+          console.error('[removeFromOrder] error ->', error)
+        }}  
+    }
+
+    function removeProductsFromOrders() {
+        transactionData?.map((order: GetTransactionsResponse) => { 
+            order.productIds.map((prod: any) => {
+                if(prod.company === orderData.name){
+                    temp = order.productIds.filter((item: any) => {item === prod});
+                    removeFromOrder(order.id, order.buyer, order.amount, temp);
+                }
+            } 
+        )})
+    }
+
+    function handleClickOpen() {
+        setOpen(true);
+    };
+  
+    const handleClose = (selectedValue: boolean) => {
+      if(selectedValue) removeProductsFromOrders();
+      setOpen(false);
+    };
 
     useEffect(() => {
        if(!isLoading) filterOrdersByCompany(transactionData!);
@@ -60,16 +106,23 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
   
     return (
       <>
-          <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: 'flex', flexDirection: 'column', gap: 12, height: 'max-content', padding: 16, width: '100%', boxShadow: "0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9)"}}>
+        <div style={{backgroundColor: "#ced3dc", borderRadius: '10px', display: 'flex', flexDirection: 'column', gap: 12, height: 'max-content', padding: 16, width: '100%', boxShadow: "0.1rem 0.15rem 0.1rem 0.1rem rgba(67, 112, 133, 0.9)"}}>
+            
             <Typography style={{fontSize:16, fontWeight: 600}}>{orderData.name}</Typography>
+            
             {productList.map((product) => {
-                return <div>{product.productId} - {product.quantity}</div>
+                return <div>{product.productId} - QUANTITÀ: {product.quantity}</div>
             })}
-            {
-                //@ts-ignore
-                <ReactWhatsapp number={orderData.phoneNumber ? orderData.phoneNumber : '3274510693'} message={parseProductListToString()}>Apri in Whatsapp</ReactWhatsapp>
-            }
-          </div>
+
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                {//@ts-ignore
+                <ReactWhatsapp number={orderData.phoneNumber ? orderData.phoneNumber : '3274510693'} message={parseProductListToString()} style={{flexBasis: 240, height: 73, backgroundColor: '#fcf7f8', borderRadius: 8}}>Apri in Whatsapp</ReactWhatsapp>
+                }
+                <Button style={{flexBasis: 100, border: '1px solid', fontSize: 11}} onClick={handleClickOpen}>Rimuovi prodotti dagli ordini</Button>
+            </div>
+        </div>
+        
+        <AlertDialog open={open} handleClose={handleClose}/>
       </>
     );
   };

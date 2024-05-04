@@ -7,6 +7,7 @@ import { Waiter } from "@/state/types";
 import { Typography } from '@mui/material';
 import { useGetWaitersQuery } from '@/state/api';
 import WaitersTable from './WaitersTable';
+import { getCookie } from '@/utils/getCookie';
 
 const ShiftsTable = () => {
     let dateNum = 1;
@@ -21,6 +22,8 @@ const ShiftsTable = () => {
     lastDate.setMonth(lastDate.getMonth() + 1); // the first day of the next month
     lastDate = new Date(lastDate.getTime() - 86400000); //the first day of the next month minus 1 day
     firstWeekDay = firstDay.getDay();
+    let role = getCookie('role');
+    const isAdmin = role === "Admin" ? true : false;
   
     for (i = 0; i < firstWeekDay; i++) {
       week.push('');
@@ -52,7 +55,9 @@ const ShiftsTable = () => {
         !isWaitersLoading && waiters?.map((waiter: Waiter) => {
             waiter?.workingDates?.map((date: Date) => {
                 let formatDate = new Date(date);
+                let todayDate = new Date();
                 if(formatDate.getDate() === day && formatDate.getMonth() === month) {
+                  if(!isAdmin && todayDate.getDate() <= formatDate.getDate() || isAdmin)
                     todayWaiters.push(waiter.name);
                 }
             })
@@ -63,7 +68,7 @@ const ShiftsTable = () => {
 
     return (
       <div style={{overflowX: 'scroll', maxWidth: '100%'}}>
-        <Typography style={{fontSize: 16, color: 'black', marginBottom: 8}}>Turni mese</Typography>
+        <Typography style={{fontSize: 18, color: 'black', marginBottom: 8}}>Turni mese</Typography>
         <Table style={{border: 1, borderRadius: 4, backgroundColor: 'lightgrey', maxWidth: '50%', overflow: 'hidden'}}>
           <TableHead style={{backgroundColor: '#4e8098'}}>
               <TableRow>
@@ -77,11 +82,11 @@ const ShiftsTable = () => {
               {month.map((week, index) => (
               <TableRow key={index}>
                   {week.map((day, index) => {
-                      let today = getWaiterForDate(day);
+                      let todayWaiters = getWaiterForDate(day);
                       
-                      return  <TableCell key={index} /* className="font-medium border border-solid align-top w-[100px]" */>
+                      return  <TableCell key={index} style={{borderRight: '1px solid #4e8098'}} /* className="font-medium border border-solid align-top w-[100px]" */>
                                   <h4 style={{ display: 'flex', justifyContent: 'center' , fontWeight: 700, border: 'solid #4e8098', borderRadius: 8, width: 20, color: '#4e8098'}}>{day}</h4>
-                                  {today.map((todayWaiter: string, index) => {
+                                  {todayWaiters.map((todayWaiter: string, index) => {
                                       return <h4 key={index} style={{display: 'flex', flexDirection: 'row-reverse', top: index}}>{todayWaiter}</h4>
                                   })}
                               </TableCell>

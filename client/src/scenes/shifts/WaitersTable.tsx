@@ -36,19 +36,19 @@ const WaitersTable = () => {
       {
       isAdmin && 
       <>
-        <Typography style={{fontSize: 16, color: 'black', marginBottom: 8, marginTop: 8}}>Camerieri</Typography>
+        <Typography style={{fontSize: 18, color: 'black', marginBottom: 8, marginTop: 8}}>Camerieri</Typography>
         <Table style={{border: 1, borderRadius: 4, backgroundColor: 'lightgrey'}}>
           <TableHead style={{backgroundColor: '#4e8098'}}>
             <TableRow>
-              <TableCell style={{fontWeight: 600, fontSize: 14}}>Nome</TableCell>
-              <TableCell style={{fontWeight: 600, fontSize: 14}}>Tot</TableCell>
+              <TableCell style={{fontWeight: 600, fontSize: 16}}>Nome</TableCell>
+              <TableCell style={{fontWeight: 600, fontSize: 16}}>Tot</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {!isWaitersLoading && waiters?.map((waiter: Waiter, index) => {
                 return  <TableRow key={index}>
-                            <TableCell className="font-medium">{waiter.name}</TableCell>
-                            <TableCell className="font-medium">{calcuteWaiterTot(waiter)},00 €</TableCell>
+                            <TableCell style={{fontWeight: 450, fontSize: 16}}>{waiter.name}</TableCell>
+                            <TableCell style={{fontWeight: 450, fontSize: 16}}>{calcuteWaiterTot(waiter)},00 €</TableCell>
                         </TableRow>
             }
             )}
