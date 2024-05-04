@@ -45,11 +45,11 @@ export default function ProductList({addProduct}: ProductListProps) {
           
           <Typography style={{fontSize: 10, color: palette.primary[900], marginBottom: 8}}>Scegli Prodotto</Typography>
           <Autocomplete
-          id="combo-box-demo"
-          key={product}
-          options={productList!}
-          sx={{ width: 240 }}
-          renderInput={(params: any) => <TextField {...params} sx={{ backgroundColor: '#4e8098', borderRadius: 2 }} label={product} onBlur={e => {setProduct(e.target.value), setPrice(parseFloat(e.target.value.split(':')[1])),  setCompany(e.target.value.split(':')[2]) }}/>}
+            id="combo-box-demo"
+            key={product}
+            options={productList!}
+            sx={{ width: 240 }}
+            renderInput={(params: any) => <TextField {...params} sx={{ backgroundColor: '#4e8098', borderRadius: 2 }} label={product} onBlur={e => {setProduct(e.target.value), setPrice(parseFloat(e.target.value.split(':')[1])),  setCompany(e.target.value.split(':')[2]) }}/>}
           />
 
           <Typography style={{fontSize: 10, color: palette.primary[900], margin: 8}}>Quantità</Typography>

@@ -1,17 +1,19 @@
 import {
-    useAddProductMutation,
+    useAddProductMutation, useGetCompaniesQuery,
 } from "@/state/api";
-import { Button, Input, Snackbar, Typography } from "@mui/material";
+import { Autocomplete, Button, Input, Snackbar, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddProductForm = () => {
   const [addProduct,{ isLoading: isUpdating }] = useAddProductMutation();
+  const { data: companies } = useGetCompaniesQuery();
+  const companiesList = companies && companies.map(item => item.name);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [company, setCompany] = useState('');
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   
   async function createProduct() {
     try {
@@ -37,8 +39,15 @@ const AddProductForm = () => {
 
             <Typography style={{fontSize: 14, color: '#043028'}}>Nome</Typography>
             <Input style={{fontSize: 14, color: '#4e8098'}} placeholder="prodotto" onChange={e => setName(e.target.value)} />
+
             <Typography style={{fontSize: 14, color: '#043028'}}>Fornitore</Typography>
-            <Input style={{fontSize: 14, color: '#4e8098'}} placeholder="azienda" onChange={e => setCompany(e.target.value)} />
+            <Autocomplete
+              id="combo-box-demo"
+              key={company}
+              options={companiesList!}
+              renderInput={(params: any) => <TextField {...params} sx={{ backgroundColor: '#4e8098', borderRadius: 2 }} label={company} onBlur={(e) => {setCompany(e.target.value)}}/>}
+            />
+            
             <Typography style={{fontSize: 14, color: '#043028'}}>Prezzo</Typography>
             <Input type="number" style={{fontSize: 14, color: '#4e8098', marginBottom: 8}} placeholder="0.00" onChange={e => setPrice(e.target.value)} />
 
