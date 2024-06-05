@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import ReactWhatsapp from 'react-whatsapp';
 import Button from '@mui/material/Button';
 import AlertDialog from "@/components/AlertDialog";
+import { useNavigate } from "react-router-dom";
 
 type PreviewCompanyFormProps = {
     orderData: GetCompanyResponse
@@ -16,6 +17,7 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     const [productList, setProductList] = useState<IProductIds[]>([{productId: 'product', quantity: '', company: '', price: 0}]);
     let temp: {productId: string, quantity: string, company: string, price: number}[] = [];
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const filterOrdersByCompany = (transactionData: GetTransactionsResponse[]) => {
         return transactionData.map((order:any) => { 
@@ -76,14 +78,15 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
 
     function removeProductsFromOrders() {
         transactionData?.map((order: GetTransactionsResponse) => { 
+            let list: IProductIds[][] = []
             order.productIds.map((prod: any) => {
-                if(prod.company === orderData.name){
-                    temp = order.productIds.filter((item: any) => { return item != prod });
-                    removeFromOrder(order.id, order.buyer, order.amount, temp);
+                if(prod.company != orderData.name){
+                    list.push(order.productIds.filter((item: any) => { return item === prod }))
                 }
-            } 
-        )})
-        //location.reload();
+            })
+            list.length > 0 ? list.forEach(el => removeFromOrder(order.id, order.buyer, order.amount, el)) : removeFromOrder(order.id, order.buyer, order.amount, [])
+        })
+        navigate('/orders')
     }
 
     function handleClickOpen() {

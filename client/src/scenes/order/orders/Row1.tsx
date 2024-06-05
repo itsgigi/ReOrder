@@ -67,7 +67,7 @@ const Row1 = ({isCreateHidden, heigth}: RowProps) => {
       field: "amount",
       headerName: "Totale",
       flex: 0.35,
-      renderCell: (params: GridCellParams) => `${isAdmin ? '€'+params.value : '/'}`,
+      renderCell: (params: any) => `${isAdmin ? '€'+params.value.toFixed(2) : '/'}`,
     },
     {
       field: "createdAt",
