@@ -19,18 +19,16 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     const { data: transactionData, isLoading } = useGetTransactionsQuery();
     const [updateOrder,{ isLoading: isUpdating }] = useUpdateOrderMutation();
     const [productList, setProductList] = useState<ProductList[]>([{productId: 'product', quantity: ''}]);
-    let temp: {productId: string, quantity: string}[] = [];
+    let temp: {productId: string, quantity: string, company: string, price: number}[] = [];
     const [open, setOpen] = useState(false);
 
     const filterOrdersByCompany = (transactionData: GetTransactionsResponse[]) => {
         return transactionData.map((order:any) => { 
-            order.productIds.map((prod:any) => {
-                console.log('prod e check', prod, order)
+            order.productIds.map((prod:IProductIds) => {
                 if(prod.company === orderData.name){
                     const isProductInList = checkIsProductInList(prod);
-                    console.log('prod e check', prod, order, isProductInList)
                     if(!isProductInList){
-                        temp.push({productId: prod.productId, quantity: prod.quantity});
+                        temp.push({productId: prod.productId, quantity: prod.quantity, price: prod.price, company: prod.company});
                     }
                 }
                 setProductList(temp);
@@ -83,12 +81,14 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     function removeProductsFromOrders() {
         transactionData?.map((order: GetTransactionsResponse) => { 
             order.productIds.map((prod: any) => {
+                console.log('prod.company e name', prod.company, orderData.name)
                 if(prod.company === orderData.name){
-                    temp = order.productIds.filter((item: any) => {item === prod});
+                    temp = order.productIds.filter((item: any) => { return item === prod });
                     removeFromOrder(order.id, order.buyer, order.amount, temp);
                 }
             } 
         )})
+        location.reload();
     }
 
     function handleClickOpen() {

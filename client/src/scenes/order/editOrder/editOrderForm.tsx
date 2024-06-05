@@ -13,7 +13,7 @@ type EditOrderFormProps = {
 const EditOrderForm = ({orderData}: EditOrderFormProps) => {
   const [updateOrder,{ isLoading: isUpdating }] = useUpdateOrderMutation();
   //@ts-ignore
-  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string}[]>(orderData.productIds);
+  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string, price: number}[]>(orderData.productIds);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(orderData.amount);
@@ -21,7 +21,7 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
   const { palette } = useTheme();
 
   function addProductToList(product: string, quantity: number, price: number, company: string) {
-    setProductList([...productList, {productId: product, quantity: quantity, company: company}]);
+    setProductList([...productList, {productId: product, quantity: quantity, company: company, price: price}]);
     let total = tot + (price * quantity);
     setTot(total);
   }
@@ -39,27 +39,28 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
   }
 
   function changeProductQuantity(product: string, value: number) {
-    let tempList: { productId: string; quantity: number; company: string; }[] = [];
+    let tempList: { productId: string; quantity: number; company: string; price: number }[] = [];
     let total = 0;
     tempList = productList.map(prod => {
       if(prod.productId === product) {
         return {
-        productId: prod.productId,
-        quantity: value,
-        company: prod.company
+          productId: prod.productId,
+          quantity: value,
+          company: prod.company,
+          price: prod.price
         }
       } else {
         return {
           productId: prod.productId,
           quantity: prod.quantity,
-          company: prod.company
+          company: prod.company,
+          price: prod.price
         }
       }
     })
 
     productList.forEach((prod) => {
-      let price = parseFloat(prod.productId.split(':')[1]); 
-      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * price);} 
+      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * prod.price);} 
     });
     console.log(tempList)
     setProductList(tempList);
@@ -91,10 +92,15 @@ const EditOrderForm = ({orderData}: EditOrderFormProps) => {
             <Typography style={{fontSize: 16, color: palette.primary[900]}}>Lista prodotti selezionati</Typography>
             {productList.map((product) => 
               {
+                console.log(product)
                 return <div style={{display: 'flex', flexDirection:'column'}}>
                         {product.quantity > 0 && 
                           <div style={{display: 'flex', gap: 8, alignItems: 'center', borderBottom: `solid 1px ${palette.primary[500]}`}}>
                             <Typography style={{color: palette.primary[500]}}>{product.productId}</Typography>
+                            <div>
+                              <Typography style={{color: palette.primary[500]}}>Prezzo</Typography>
+                              <Input style={{fontSize: 12}} value={product.price} disabled/>
+                            </div> 
                             <div>
                               <Typography style={{color: palette.primary[500]}}>QUANTITÀ</Typography>
                               <Input style={{fontSize: 12}} value={product.quantity} onChange={(e) => changeProductQuantity(product.productId, parseInt(e.target.value))}/>

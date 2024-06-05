@@ -8,7 +8,7 @@ import { getCookie } from "@/utils/getCookie";
 
 const CreateOrderForm = () => {
   const [createOrder,{ isLoading: isUpdating }] = useCreateOrderMutation();
-  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string}[]>([{productId: 'product', quantity: 0, company: ''}]);
+  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string, price: number}[]>([{productId: 'product', quantity: 0, company: '', price: 0}]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(0);
@@ -16,7 +16,7 @@ const CreateOrderForm = () => {
   let userName = getCookie('name');
 
   function addProductToList(product: string, quantity: number, price: number, company: string) {
-    setProductList([...productList, {productId: product, quantity: quantity, company: company}]);
+    setProductList([...productList, {productId: product, quantity: quantity, company: company, price: price}]);
     let total = tot + (price * quantity);
     setTot(total);
   }
@@ -26,8 +26,7 @@ const CreateOrderForm = () => {
     let total = 0;
 
     productList.forEach((prod) => {
-      let price = parseFloat(prod.productId.split(':')[1]); 
-      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * price);} 
+      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * prod.price);} 
     });
     setProductList(tempList);
     setTot(total);

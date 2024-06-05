@@ -10,12 +10,12 @@ const ProtectedRoute = ({
     user
   }: IProtectedRouteProps) => {
     const { data: loggedData, isLoading } = useIsLoggedInQuery();
-    let [redirectPath, setRedirectPath] = useState('/');
+    let [redirectPath, setRedirectPath] = useState(location.pathname);
 
     useEffect(() => {
         if(!isLoading) {
             if(loggedData){ 
-                setRedirectPath('/');
+                setRedirectPath(location.pathname);
             } else {
                 setRedirectPath('/login');
             }

@@ -105,6 +105,7 @@ export interface ExpensesByCategory {
 
   export interface IProductIds {
     productId: string,
+    price: number,
     quantity: string,
     company: string
   }
