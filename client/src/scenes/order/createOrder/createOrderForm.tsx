@@ -1,14 +1,15 @@
 import { Button, Input, Snackbar, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import ProductsList from "./productsList";
 import { useCreateOrderMutation } from "@/state/api";
 import ProductList from "./productsList";
 import { getCookie } from "@/utils/getCookie";
+import SelectedProductList from "../editOrder/selectedProductList";
 
 const CreateOrderForm = () => {
   const [createOrder,{ isLoading: isUpdating }] = useCreateOrderMutation();
-  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string, price: number}[]>([{productId: 'product', quantity: 0, company: '', price: 0}]);
+  const [productList, setProductList] = useState<{productId: string, quantity: number, company: string, price: number}[]>();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [tot, setTot] = useState(0);
@@ -16,21 +17,22 @@ const CreateOrderForm = () => {
   let userName = getCookie('name');
 
   function addProductToList(product: string, quantity: number, price: number, company: string) {
-    setProductList([...productList, {productId: product, quantity: quantity, company: company, price: price}]);
+    setProductList([...productList ? productList : [], {productId: product, quantity: quantity, company: company, price: price}]);
     let total = tot + (price * quantity);
     setTot(total);
   }
 
-  function removeProductFromList(product: string) {
-    let tempList = productList.filter(prod => prod.productId != product);
-    let total = 0;
-
-    productList.forEach((prod) => {
-      if(prod.quantity > 0 && prod.productId != product){ total = total + (prod.quantity * prod.price);} 
-    });
-    setProductList(tempList);
-    setTot(total);
+  function updateProductList(newProductList: any) {
+    setProductList(newProductList);
   }
+
+  useEffect(() => {
+    let total = 0
+    productList?.forEach((prod: any) => {
+      if(prod.quantity > 0 ){ total = total + (prod.quantity * prod.price);} 
+    });
+    setTot(total);
+  }, [productList])
   
   async function sendOrder() {
     try {
@@ -54,19 +56,8 @@ const CreateOrderForm = () => {
             <Input type="string" style={{fontSize: 14, color: palette.primary[500]}} placeholder="userName" value={userName} disabled />
             <ProductList addProduct={addProductToList}/>
             <Typography style={{fontSize: 16, color: palette.primary[900]}}>Lista prodotti selezionati</Typography>
-            {productList.map((product, index) => 
-              {
-                return <div key={index} style={{display: 'flex', flexDirection:'column'}}>
-                        {product.quantity > 0 && 
-                          <div style={{display: 'flex', gap: 8, alignItems: 'center', borderBottom: `solid 1px ${palette.primary[500]}`}}>
-                            <Typography style={{color: palette.primary[500]}}>{product.productId} - {product.quantity}</Typography>
-                            <Button style={{fontSize: 12}} onClick={() => removeProductFromList(product.productId)} disabled={false} >Rimuovi</Button>
-                          </div>
-                        }
-                       </div>
-              })
-            }
-            <Button style={{fontSize: 18}} onClick={sendOrder} disabled={productList.length <= 1} >Crea Ordine</Button>
+            <SelectedProductList productList={productList} setProductList={updateProductList} />
+            <Button style={{fontSize: 18}} onClick={sendOrder} disabled={productList?.length! <= 1} >Crea Ordine</Button>
         </div>
         <Snackbar
             open={open}

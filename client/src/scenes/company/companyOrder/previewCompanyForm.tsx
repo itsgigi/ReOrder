@@ -9,16 +9,11 @@ import AlertDialog from "@/components/AlertDialog";
 type PreviewCompanyFormProps = {
     orderData: GetCompanyResponse
 }
-
-type ProductList = {
-    productId: string, 
-    quantity: string
-}
   
 const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     const { data: transactionData, isLoading } = useGetTransactionsQuery();
     const [updateOrder,{ isLoading: isUpdating }] = useUpdateOrderMutation();
-    const [productList, setProductList] = useState<ProductList[]>([{productId: 'product', quantity: ''}]);
+    const [productList, setProductList] = useState<IProductIds[]>([{productId: 'product', quantity: '', company: '', price: 0}]);
     let temp: {productId: string, quantity: string, company: string, price: number}[] = [];
     const [open, setOpen] = useState(false);
 
@@ -63,7 +58,8 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
         return finalString;
     }
 
-    async function removeFromOrder(id: string, creator: string, tot: any, productList: ProductList[] ) {
+    async function removeFromOrder(id: string, creator: string, tot: any, productList: IProductIds[] ) {
+        console.log('order', id, creator, productList)
         try {
           if(!isUpdating) updateOrder(
             {
@@ -81,14 +77,13 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
     function removeProductsFromOrders() {
         transactionData?.map((order: GetTransactionsResponse) => { 
             order.productIds.map((prod: any) => {
-                console.log('prod.company e name', prod.company, orderData.name)
                 if(prod.company === orderData.name){
-                    temp = order.productIds.filter((item: any) => { return item === prod });
+                    temp = order.productIds.filter((item: any) => { return item != prod });
                     removeFromOrder(order.id, order.buyer, order.amount, temp);
                 }
             } 
         )})
-        location.reload();
+        //location.reload();
     }
 
     function handleClickOpen() {
@@ -111,7 +106,7 @@ const PreviewCompanyForm = ({orderData}: PreviewCompanyFormProps) => {
             <Typography style={{fontSize:16, fontWeight: 600}}>{orderData.name}</Typography>
             
             {productList.map((product) => {
-                return <div>{product.productId} - QUANTITÀ: {product.quantity}</div>
+                return <div key={product.productId}>{product.productId} - QUANTITÀ: {product.quantity}</div>
             })}
 
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
